@@ -30,63 +30,8 @@ android:fitsSystemWindows="true">
             android:layout_height="wrap_content"
             android:inputType="text"
             android:hint="Nombre de usuario"
-            android:text="usuario5" />
-    </android.support.design.widget.TextInputLayout>
-
-    <!-- Nombre -->
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
-        <EditText android:id="@+id/input_nombre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapWords"
-            android:hint="Nombre"
-            android:text="Nombre5"/>
-    </android.support.design.widget.TextInputLayout>
-
-    <!-- Apellido -->
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
-        <EditText android:id="@+id/input_apellido"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapWords"
-            android:hint="Apellidos"
-            android:text="Apellidos5"/>
-    </android.support.design.widget.TextInputLayout>
-
-    <!--  Contraseña -->
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
-        <EditText android:id="@+id/input_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="Contraseña"
-            android:text="contrasena"/>
-    </android.support.design.widget.TextInputLayout>
-
-    <!-- Repetir Contraseña  -->
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
-        <EditText android:id="@+id/input_password2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="Repetir contraseña"
-            android:text="contrasena"/>
+            android:text="usuario123"
+            />
     </android.support.design.widget.TextInputLayout>
 
     <!-- Email -->
@@ -100,7 +45,68 @@ android:fitsSystemWindows="true">
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:hint="Email"
-            android:text="email5@gmail.com"/>
+            android:text="email123@gmail.com"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <!--  Contraseña -->
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+        <EditText android:id="@+id/input_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Contraseña"
+            android:text="123456"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <!-- Repetir Contraseña  -->
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+        <EditText android:id="@+id/input_password2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Repetir contraseña"
+            android:text="123456"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <!-- Nombre -->
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+        <EditText android:id="@+id/input_nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"
+            android:hint="Nombre"
+            android:text="nombre123"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <!-- Apellido -->
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+        <EditText android:id="@+id/input_apellido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"
+            android:hint="Apellidos"
+            android:text="Apellidos123"
+            />
     </android.support.design.widget.TextInputLayout>
 
     <!-- Region -->
@@ -114,7 +120,8 @@ android:fitsSystemWindows="true">
             android:layout_height="wrap_content"
             android:inputType="text"
             android:hint="Región"
-            android:text="region5"/>
+            android:text="region123"
+            />
     </android.support.design.widget.TextInputLayout>
 
     <!-- Ciudad -->
@@ -128,7 +135,8 @@ android:fitsSystemWindows="true">
             android:layout_height="wrap_content"
             android:inputType="text"
             android:hint="Ciudad"
-            android:text="ciudad5"/>
+            android:text="ciudad123"
+            />
     </android.support.design.widget.TextInputLayout>
 
     <!-- Comuna -->
@@ -142,7 +150,8 @@ android:fitsSystemWindows="true">
             android:layout_height="wrap_content"
             android:inputType="text"
             android:hint="Comuna"
-            android:text="comuna5"/>
+            android:text="comuna123"
+            />
     </android.support.design.widget.TextInputLayout>
 
     <!-- Direccion -->
@@ -156,7 +165,8 @@ android:fitsSystemWindows="true">
             android:layout_height="wrap_content"
             android:inputType="text"
             android:hint="Dirección"
-            android:text="direccion5"/>
+            android:text="direccion123"
+            />
     </android.support.design.widget.TextInputLayout>
 
     <TextView android:id="@+id/terminos_condiciones"

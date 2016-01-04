@@ -5,21 +5,28 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.usach.tbdgrupo7.iservifast.Model.Oferta;
+import com.usach.tbdgrupo7.iservifast.utilities.SSLTrust;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedOutputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * @author: Grupo 7
+ * Created by matias on 28-12-15.
  */
-public class HttpPost extends AsyncTask<String, Void, String> {
+public class SolicitarPost extends AsyncTask<String, Void, String>{
 
-
+    private SSLTrust sT;
     private Context context;
 
-    public HttpPost(Context context) {
+    public SolicitarPost(Context context) {
         this.context = context;
+        this.sT = new SSLTrust();
     }// HttpPost(Context context)
 
     /***
@@ -30,6 +37,7 @@ public class HttpPost extends AsyncTask<String, Void, String> {
         try {
 
             URL url = new URL(params[0]);
+            sT.trustEveryone(); //necesario para conexión ssl
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
             connection.setDoInput(true);
@@ -47,7 +55,7 @@ public class HttpPost extends AsyncTask<String, Void, String> {
             out.close();*/
             return "OK";
         }catch(Exception e){
-            Log.e("ERROR",this.getClass().toString() + " " + e.toString());
+            Log.e("ERROR", this.getClass().toString() + " " + e.toString());
         }
         return "ERROR";
     }
@@ -62,5 +70,27 @@ public class HttpPost extends AsyncTask<String, Void, String> {
         Intent intent = new Intent("httpPost").putExtra("post", result);
         context.sendBroadcast(intent);
     }// onPostExecute(String result)
+
+    public JSONObject setActor(Oferta oferta) {
+        // build jsonObject
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.accumulate("usuario_idUsuario", oferta.getUsuario_idUsuario());
+            jsonObject.accumulate("titulo", oferta.getTitulo());
+            jsonObject.accumulate("descripcion", oferta.getDescripcion());
+            jsonObject.accumulate("categoria_idCategoria", oferta.getCategoria_idCategoria());
+            jsonObject.accumulate("comunidad_idComunidad", oferta.getComunidad_idComunidad());
+            jsonObject.accumulate("duracion", oferta.getDuracion());
+            jsonObject.accumulate("precio", oferta.getPrecio());
+            jsonObject.accumulate("promedio", oferta.getPromedio());
+            jsonObject.accumulate("usuario_idUsuario", oferta.getUsuario_idUsuario());
+            return jsonObject;
+
+        }catch(JSONException je){
+            Log.e("ERROR",this.getClass().toString()+ " - "+ je.getMessage());
+        }
+        return null;
+    }
+
 
 }// HttpPost

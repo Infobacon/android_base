@@ -1,48 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.usach.tbdgrupo7.iservifast" >
+    package="com.usach.tbdgrupo7.iservifast">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
 
     <application
-
-     android:allowBackup="true"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".Views.LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.Dark" >
+            android:theme="@style/AppTheme.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Views.SolicitarActivity"
-            android:theme="@style/AppTheme.Dark" >
-        </activity>
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Views.RegistrarActivity"
-            android:theme="@style/AppTheme.Dark" >
-        </activity>
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Views.OfrecerActivity"
-            android:theme="@style/AppTheme.Dark" >
-        </activity>
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Views.MainActivity"
-            android:label="@string/title_activity_main">
-        </activity>
-        <activity android:name=".Views.DisqusActivity" >
-        </activity>
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.Dark" />
+        <activity android:name=".Views.ServicioOfrecidoActivity"></activity>
     </application>
 
+</manifest><!--
+    <?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+package="com.usach.tbdgrupo7.iservifast" >
+
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-feature android:name="android.hardware.camera" />
+
+<application
+    android:allowBackup="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme" >
+    <activity
+        android:name=".Views.LoginActivity"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme.Dark" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+    <activity
+        android:name=".Views.SolicitarActivity"
+        android:theme="@style/AppTheme.Dark" >
+    </activity>
+    <activity
+        android:name=".Views.RegistrarActivity"
+        android:theme="@style/AppTheme.Dark" >
+    </activity>
+    <activity
+        android:name=".Views.OfrecerActivity"
+        android:theme="@style/AppTheme.Dark"
+        android:screenOrientation="portrait"
+        android:configChanges="orientation|keyboardHidden">
+    </activity>
+    <activity
+        android:name=".Views.MainActivity"
+        android:theme="@style/AppTheme.Dark"
+        android:label="@string/title_activity_main">
+    </activity>
+</application>
+
 </manifest>
+-->

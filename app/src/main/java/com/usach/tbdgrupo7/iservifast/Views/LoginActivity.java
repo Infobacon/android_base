@@ -1,16 +1,20 @@
 package com.usach.tbdgrupo7.iservifast.Views;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.usach.tbdgrupo7.iservifast.Controllers.Login;
+import com.usach.tbdgrupo7.iservifast.Model.Usuario;
 import com.usach.tbdgrupo7.iservifast.R;
 import com.usach.tbdgrupo7.iservifast.utilities.SystemUtilities;
 
@@ -19,12 +23,15 @@ import butterknife.InjectView;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final int REQUEST_SIGNUP = 0;
-
+    private static final short REQUEST_SIGNUP = 0;
+    private String user_text;
+    private String pass_text;
+    private final short largoMinUsuario = 6;
+    private final short largoMaxUsuario = 12;
+    private final short largoMinPassword = 6;
+    private final short largoMaxPassword = 12;
+    private ProgressDialog dialogAutentificando;
     private BroadcastReceiver br = null;
-    boolean resultadoLogin = false;
-    String user_text;
-    String pass_text;
 
     @InjectView(R.id.input_user)EditText _userText;
     @InjectView(R.id.input_password) EditText _passwordText;
@@ -36,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
+
+        dialogAutentificando = new ProgressDialog(LoginActivity.this,R.style.AppTheme_Dark_Dialog);
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -49,60 +58,56 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                // Start the Signup activity
                 Intent intent = new Intent(getApplicationContext(), RegistrarActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
+
+
+        // Item Click Listener for the listview
+        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View container, int position, long id) {
+                // Getting the Container Layout of the ListView
+                LinearLayout linearLayoutParent = (LinearLayout) container;
+
+                // Getting the inner Linear Layout
+                LinearLayout linearLayoutChild = (LinearLayout ) linearLayoutParent.getChildAt(1);
+
+                // Getting the Country TextView
+                TextView tvCountry = (TextView) linearLayoutChild.getChildAt(0);
+
+                Toast.makeText(getBaseContext(), tvCountry.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        };
+
     }
 
     public void login() {
 
-        if (!validate()) {
-            onLoginFailed();
-            return;
-        }
-
-        /*_loginButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Autentificando...");
-        progressDialog.show();
-*/
         user_text = _userText.getText().toString();
         pass_text = _passwordText.getText().toString();
 
-        SystemUtilities su = new SystemUtilities(this.getApplicationContext());
-        if (su.isNetworkAvailable()) {
-            new Login(getApplicationContext(),user_text,pass_text).execute("http://10.0.2.2:8080/tbd_java_ee-master/Usuario");
+        if (validarCampos()==false) {
+            camposInvalidos();
+            return;
         }
 
-        /*new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        if(resultadoLogin==true) {
-                            onLoginSuccess();
-                            progressDialog.dismiss();
-                        }
-                        else{
-                            onLoginFailed();
-                            progressDialog.dismiss();
-                        }
-                    }
-                }, 1000);
-                */
+        SystemUtilities su = new SystemUtilities(this.getApplicationContext());
+        if (su.isNetworkAvailable()) {
+            new Login(this,user_text,pass_text).execute(getResources().getString(R.string.servidor) + "Usuario");
+        }
+        else{
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_internet), Toast.LENGTH_LONG);
+            return;
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-                //this.finish();
+                this.finish();
             }
         }
     }
@@ -110,40 +115,61 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // Disable going back to the MainActivity
-        moveTaskToBack(true);
+        moveTaskToBack(false);
+        finish();
     }
 
-    public void onLoginSuccess() {
-        _loginButton.setEnabled(true);
+    public void onLoginSuccess(Usuario user) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.putExtra("usuario",user_text);
-        intent.putExtra("password", pass_text);
+        intent.putExtra("usuario", user.getUsuario());
+        /*intent.putExtra("idUsuario", user.getIdUsuario());
+        intent.putExtra("password", user.getPassword());
+        intent.putExtra("nombre", user.getNombre());
+        intent.putExtra("apellido", user.getApellido());
+        intent.putExtra("mail", user.getEmail());
+        intent.putExtra("region", user.getRegion());
+        intent.putExtra("ciudad", user.getCiudad());
+        intent.putExtra("comuna", user.getComuna());
+        intent.putExtra("direccion", user.getDireccion());*/
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        cerrarProgressDialog();
         startActivity(intent);
-
-        //finish();
+        finish();
     }
 
     public void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Usuario y contraseña no coinciden", Toast.LENGTH_LONG).show();
+        cerrarProgressDialog();
+    }
 
+    private void camposInvalidos(){
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.campos_invalidos), Toast.LENGTH_LONG);
+    }
+
+    public void abrirProgressDialog(){
+        _loginButton.setEnabled(false);
+        dialogAutentificando.setIndeterminate(true);
+        dialogAutentificando.setMessage("Autentificando...");
+        dialogAutentificando.show();
+    }
+
+    private void cerrarProgressDialog(){
+        dialogAutentificando.dismiss();
         _loginButton.setEnabled(true);
     }
 
-    public boolean validate() {
+    public boolean validarCampos() {
         boolean valid = true;
 
-        user_text = _userText.getText().toString();
-        pass_text = _passwordText.getText().toString();
-
-        if(user_text.isEmpty() || user_text.length() > 20 ) {
-            _userText.setError("Ingresa un usuario válido");
+        if(user_text.isEmpty() || user_text.length() < largoMinUsuario || user_text.length() > largoMaxUsuario ) {
+            _userText.setError("Usuario entre "+largoMinUsuario+" y "+largoMaxUsuario + "carácteres alfanuḿericos");
             valid = false;
         } else {
             _userText.setError(null);
         }
 
-        if (pass_text.isEmpty() || pass_text.length() < 4 || pass_text.length() > 14) {
-            _passwordText.setError("Contraseña entre 4 y 14 carácteres alfanuméricos");
+        if (pass_text.isEmpty() || pass_text.length() < largoMinPassword || pass_text.length() > largoMaxPassword) {
+            _passwordText.setError("Contraseña entre "+largoMinPassword+" y "+largoMaxPassword + " carácteres alfanuméricos");
             valid = false;
         } else {
             _passwordText.setError(null);
