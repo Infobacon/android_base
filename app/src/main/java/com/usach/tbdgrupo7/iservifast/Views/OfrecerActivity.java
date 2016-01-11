@@ -105,7 +105,7 @@ public class OfrecerActivity extends AppCompatActivity {
 
                 String titulo = ((EditText) findViewById(R.id.input_titulo)).getText().toString();
                 String descripcion = ((EditText) findViewById(R.id.input_descripcion)).getText().toString();
-                String categoria = ((EditText) findViewById(R.id.input_categoria)).getText().toString();
+                //String categoria = ((EditText) findViewById(R.id.input_categoria)).getText().toString();
                 String precio = ((EditText) findViewById(R.id.input_precio)).getText().toString();
                 Date d = new Date();
 

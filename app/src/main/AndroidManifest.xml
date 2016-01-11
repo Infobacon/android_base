@@ -41,7 +41,13 @@
             android:name=".Views.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.Dark" />
-        <activity android:name=".Views.ServicioOfrecidoActivity"></activity>
+        <activity
+            android:name=".Views.ServicioOfrecidoActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.Dark" />
+        <activity android:name=".Views.FavoritosActivity"
+            android:theme="@style/AppTheme.Dark">
+        </activity>
     </application>
 
 </manifest><!--

@@ -20,44 +20,22 @@ import android.widget.Toast;
 
 import com.usach.tbdgrupo7.iservifast.Controllers.OfrecerGet;
 import com.usach.tbdgrupo7.iservifast.Model.Oferta;
+import com.usach.tbdgrupo7.iservifast.Model.Usuario;
 import com.usach.tbdgrupo7.iservifast.R;
 import com.usach.tbdgrupo7.iservifast.utilities.SystemUtilities;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    CustomListAdapter adapter;
-    ListView list;
+    private CustomListAdapter adapter;
+    private ListView list;
     private ProgressDialog progressDialog;
     private String[] titulos;
     private String[] descripciones;
     private Button btn_ofrecer;
     private Button btn_solicitar;
     private Oferta[] servicios;
-
-    String[] itemname ={
-            "Safari",
-            "Camera",
-            "Global",
-            "FireFox",
-            "UC Browser",
-            "Android Folder",
-            "VLC Player",
-            "Cold War",
-            "Cold War",
-            "Cold War",
-            "Cold War",
-            "Cold War",
-            "Cold War",
-            "Cold War",
-            "Cold War",
-            "Cold War",
-            "Cold War",
-            "Cold War",
-            "Cold War",
-            "Cold War",
-            "Cold War"
-    };
+    private Usuario user;
 
     Integer[] imgid={
             R.drawable.bmw_logo,
@@ -84,6 +62,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         progressDialog = new ProgressDialog(MainActivity.this,R.style.AppTheme_Dark_Dialog);
+
+        user = (Usuario) (getIntent().getSerializableExtra("usuario"));
 
         new OfrecerGet(this).execute(getResources().getString(R.string.servidor) + "Oferta");
 
@@ -132,12 +112,9 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View arg0) {
                 SystemUtilities su = new SystemUtilities(getApplicationContext());
                 if (su.isNetworkAvailable()) {
-                    //IntentFilter intentFilter = new IntentFilter("httpData");
-                    //new Ofrecer(getApplicationContext()).execute(getResources().getString(R.string.servidor)+"Categoria");;
-                    Intent myIntent = new Intent(MainActivity.this,SolicitarActivity.class);
-                    //myIntent.putExtra("id_usuario",id_usuario);
+                    Intent myIntent = new Intent(MainActivity.this,FavoritosActivity.class);
+                    myIntent.putExtra("usuario",user);
                     startActivity(myIntent);
-
                 }
             }
         });
@@ -221,46 +198,20 @@ public class MainActivity extends AppCompatActivity
 
 
         if (id == R.id.servicios_ofrecidos) {
-            Toast.makeText(getApplicationContext(),"Servicios ofrecidos mensaje",Toast.LENGTH_LONG).show();
-        } else if (id == R.id.servicios_solicitados) {
 
-            /*
-            setContentView(R.layout.fragment_solicitar);
-            transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_solicitar, new SolicitarFragment());
-            transaction.commit();
-*/
+            Toast.makeText(getApplicationContext(),"Servicios ofrecidos mensaje",Toast.LENGTH_LONG).show();
+
+        } else if (id == R.id.servicios_solicitados) {
             Intent intent = new Intent(getApplicationContext(), OfrecerActivity.class);
             startActivityForResult(intent, 0);
-
-
             Toast.makeText(getApplicationContext(),"mensaje",Toast.LENGTH_LONG).show();
-/*
-            f1 = new SolicitarFragment();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.ofrecer_servicio, f1);
-            ft.replace(R.id.ofrecer_servicio,)
-            ft.commit();
-*/
+
         } else if (id == R.id.ofrecer_servicio) {
 
             Intent intent = new Intent(getApplicationContext(), OfrecerActivity.class);
             startActivityForResult(intent, 0);
 
         } else if (id == R.id.solicitar_servicio){
-
-            /*
-            Fragment fragment = new SolicitarFragment();
-            String tag = fragment.toString();
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            //FragmentManager fragmentManager = getFragmentManager(); // For AppCompat use getSupportFragmentManager
-            fragmentManager.beginTransaction()
-                    .hide(getFragmentManager().findFragmentById(R.id.fragment_main))
-                    .add(fragment,fragment.toString())
-                    .addToBackStack(tag)
-                    .commit();
-            */
 
         }
 

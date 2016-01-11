@@ -1,14 +1,10 @@
 package com.usach.tbdgrupo7.iservifast.Controllers;
 
-/**
- * Created by matias on 31-12-15.
- */
-
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.usach.tbdgrupo7.iservifast.Model.Oferta;
-import com.usach.tbdgrupo7.iservifast.Views.MainActivity;
+import com.usach.tbdgrupo7.iservifast.Model.Favorito;
+import com.usach.tbdgrupo7.iservifast.Views.FavoritosActivity;
 import com.usach.tbdgrupo7.iservifast.utilities.SSLTrust;
 
 import org.json.JSONArray;
@@ -22,16 +18,21 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Scanner;
 
-public class OfrecerGet extends AsyncTask<String, Void, String> {
+/**
+ * Created by matias on 11-01-16.
+ */
+public class FavoritosGet extends AsyncTask<String, Void, String>{
 
+    private FavoritosActivity favoritosActivity;
     private SSLTrust sT;
-    private MainActivity mainActivity;
-    private Oferta servicios[];
+    private Favorito favoritos[];
 
-    public OfrecerGet(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
+
+    public FavoritosGet(FavoritosActivity favoritosActivity){
+        this.favoritosActivity = favoritosActivity;
         this.sT = new SSLTrust();
     }
+
 
     @Override
     protected void onPreExecute() {
@@ -62,38 +63,27 @@ public class OfrecerGet extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         getServiciosOfrecidos(result);
-        mainActivity.listarServicios(servicios);
+        favoritosActivity.getServicios(favoritos);
     }
 
     public void getServiciosOfrecidos(String json) {
         try {
             JSONArray ja = new JSONArray(json);;
-            servicios = new Oferta[ja.length()];
+            favoritos = new Favorito[ja.length()];
             String precio;
             for (int i = 0; i < ja.length(); i++) {
                 JSONObject row = ja.getJSONObject(i);
-                Oferta servicio = new Oferta();
-                servicio.setCategoria_idCategoria(row.getInt("categoria_idCategoria"));
-                servicio.setCategoria(row.getString("catnombre"));
-                servicio.setComunidad(row.getString("comnombre"));
-                servicio.setDescripcion(row.getString("descripcion"));
-                servicio.setIdServicio(row.getInt("idServicio"));
-                servicio.setRegion(row.getString("region"));
-                servicio.setUsuario(row.getString("unick"));
-                precio = row.getString("precio");
-                if(precio.equals("")==true){
-                    servicio.setPrecio(-1);
-                }
-                else{
-                    servicio.setPrecio(Integer.parseInt(precio));
-                }
-                servicio.setTitulo(row.getString("titulo"));
-                servicio.setUsuario_idUsuario(row.getInt("usuario_idUsuario"));
-                servicios[i]=servicio;
+                Favorito fav = new Favorito();
+                fav.setIdFavorito(row.getInt("idFavorito"));
+                fav.setServicio_idServicio(row.getInt("servicio_idServicio"));
+                fav.setUsuario_idUsuario(row.getInt("usuario_idUsuario"));
+                favoritos[i]=fav;
             }
         } catch (JSONException e) {
             Log.e("ERROR", this.getClass().toString() + " " + e.toString());
         }
-    }// getActors(String actors)
+    }
+
+
 
 }

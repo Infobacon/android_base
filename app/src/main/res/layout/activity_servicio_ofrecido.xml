@@ -17,6 +17,15 @@
         android:layout_alignParentLeft="true">
 
 
+        <ImageButton android:id="@+id/favorite"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/star"
+            android:background="#00ffffff"
+            android:onClick="onToggleStar"
+            android:layout_gravity="right" />
+
+
         <ImageView
             android:src="@drawable/no_image"
             android:layout_width="fill_parent"
@@ -29,7 +38,9 @@
         <View
             android:layout_width="match_parent"
             android:layout_height= "2dp"
+            android:layout_marginTop="20dp"
             android:background="@color/jumbo" />
+
 
         <!--Titulo-->
         <TextView
@@ -41,13 +52,21 @@
             android:layout_alignParentLeft="true"
             />
 
+
         <!--Precio-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/label_precio"
+            android:textColor="@color/aluminum"
+            android:text="Precio"
+            android:textStyle="bold" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/precio_servicio"
+            android:textSize="20sp"
             android:layout_alignParentLeft="true"
-            android:textStyle="bold"
             />
 
         <View
@@ -57,9 +76,17 @@
 
         <!--Categoria-->
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/label_categoria"
+            android:text="Categoria"
+            android:textColor="@color/aluminum"
+            android:textStyle="bold" />
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/categoria_servicio"
+            android:textSize="20sp"
             android:layout_below="@+id/imagen_servicio"
             android:layout_alignParentLeft="true"
             />
@@ -72,18 +99,34 @@
         <!--Informacion del vendedor-->
         <!--Nombre vendedor-->
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/label_nombreVendedor"
+            android:textColor="@color/aluminum"
+            android:text="Vendedor"
+            android:textStyle="bold" />
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/nombre_vendedor"
+            android:id="@+id/usuario_vendedor"
+            android:textSize="20sp"
             android:layout_below="@+id/imagen_servicio"
             android:layout_alignParentLeft="true"
             />
 
         <!--Region vendedor-->
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/label_region"
+            android:textColor="@color/aluminum"
+            android:text="Región"
+            android:textStyle="bold" />
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/region_vendedor"
+            android:textSize="20sp"
             android:layout_below="@+id/imagen_servicio"
             android:layout_alignParentLeft="true"
             />
@@ -95,12 +138,22 @@
 
         <!--Descripcion del servicio-->
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/label_descripcion"
+            android:textColor="@color/aluminum"
+            android:text="Descripción"
+            android:textStyle="bold" />
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/descripcion_servicio"
+            android:textSize="20sp"
             android:layout_below="@+id/imagen_servicio"
             android:layout_alignParentLeft="true"
-            />
+            android:visibility="visible" />
+
+
 
     </LinearLayout>
 

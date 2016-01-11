@@ -10,6 +10,10 @@ public class Oferta implements Serializable{
 
     private String titulo;
     private String descripcion;
+    private String region;
+    private String usuario;
+    private String categoria;
+    private String comunidad;
     private int idServicio;
     private int categoria_idCategoria;
     private int comunidad_idComunidad;
@@ -22,6 +26,38 @@ public class Oferta implements Serializable{
     public Oferta(){
         this.duracion = 10;
         this.promedio = 0;
+    }
+
+    public String getComunidad() {
+        return comunidad;
+    }
+
+    public void setComunidad(String comunidad) {
+        this.comunidad = comunidad;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public int getIdServicio() {

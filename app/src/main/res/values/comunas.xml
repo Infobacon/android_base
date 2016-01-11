@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_arica">
+        <item id="1">Arica</item>
+        <item id="2">Camarones</item>
+    </string-array>
+
+    <string-array name="spinner_parinacota">
+        <item id="3">Putre</item>
+        <item id="4">General Lagos</item>
+    </string-array>
+
+    <string-array name="spinner_iquique">
+        <item id="5">Iquique</item>
+        <item id="6">Alto Hospicio</item>
+    </string-array>
+
+    <string-array name="spinner_tamarugal">
+        <item id="7">Pozo Almonte</item>
+        <item id="8">Camiña</item>
+        <item id="9">Colchane</item>
+        <item id="10">Huara</item>
+        <item id="11">Pica</item>
+    </string-array>
+
+    <string-array name="spinner_antofagasta">
+        <item id="12">Antofagasta</item>
+        <item id="13">Mejillones</item>
+        <item id="14">Sierra Gorda</item>
+        <item id="15">Taltal</item>
+    </string-array>
+
+    <string-array name="spinner_el_loa">
+        <item id="16">Calama</item>
+        <item id="17">Ollagüe Caro</item>
+        <item id="18">San Pedro de Atacama</item>
+    </string-array>
+
+    <string-array name="spinner_tocopilla">
+        <item id="19">Tocopilla</item>
+        <item id="20">María Elena</item>
+    </string-array>
+
+    <string-array name="spinner_copiapo">
+        <item id="21">Copiapó</item>
+        <item id="22">Caldera</item>
+        <item id="23">Tierra Amarilla</item>
+    </string-array>
+
+    <string-array name="spinner_chanaral">
+        <item id="24">Chañaral</item>
+        <item id="25">Diego de Almagro</item>
+    </string-array>
+
+    <string-array name="spinner_huasco">
+        <item id="26">Vallenar</item>
+        <item id="27">Alto del Carmen</item>
+        <item id="28">Freirina</item>
+        <item id="29">Huasco</item>
+    </string-array>
+
+    <string-array name="spinner_elqui">
+        <item id="30">La Serena</item>
+        <item id="31">Coquimbo</item>
+        <item id="32">Andacollo</item>
+        <item id="33">La Higuera</item>
+        <item id="34">Paiguano</item>
+        <item id="35">Vicuña</item>
+    </string-array>
+
+    <string-array name="spinner_choapa">
+        <item id="45">Illapel</item>
+        <item id="46">Canela</item>
+        <item id="47">Los Vilos</item>
+        <item id="48">Salamanca</item>
+    </string-array>
+
+    <string-array name="spinner_limari">
+        <item id="49">Ovalle</item>
+        <item id="50">Combarbalá</item>
+        <item id="51">Monte Patria</item>
+        <item id="52">Punitaqui</item>
+        <item id="53">Río Hurtado</item>
+    </string-array>
+
+    <string-array name="spinner_valparaiso">
+        <item id="49">Valparaíso</item>
+        <item id="54">Viña del Mar</item>
+        <item id="50">Casablanca</item>
+        <item id="51">Concón</item>
+        <item id="52">Juan Fernández</item>
+        <item id="53">Puchuncaví</item>
+        <item id="54">Quintero</item>
+    </string-array>
+
+    <string-array name="spinner_isla_de_pascua">
+        <item id="49">Isla de Pascua</item>
+    </string-array>
+
+    <string-array name="spinner_los_andes">
+        <item id="49">Los Andes</item>
+        <item id="50">Calle Larga</item>
+        <item id="51">Rinconada</item>
+        <item id="52">San Esteban</item>
+    </string-array>
+
+    <string-array name="spinner_petorca">
+        <item id="49">La Ligua</item>
+        <item id="50">Cabildo</item>
+        <item id="51">Papudo</item>
+        <item id="52">Petorca</item>
+        <item id="53">Zapallar</item>
+    </string-array>
+
+    <string-array name="spinner_quillota">
+        <item id="49">Quillota</item>
+        <item id="50">Calera</item>
+        <item id="51">Hijuelas</item>
+        <item id="52">La Cruz</item>
+        <item id="53">Nogales</item>
+    </string-array>
+
+    <string-array name="spinner_san_antonio">
+        <item id="49">San Antonio</item>
+        <item id="50">Algarrobo</item>
+        <item id="51">Cartagena</item>
+        <item id="52">El Quisco</item>
+        <item id="53">El Tabo</item>
+        <item id="54">Santo Domingo</item>
+    </string-array>
+
+    <string-array name="spinner_san_felipe">
+        <item id="49">San Felipe</item>
+        <item id="50">Catemu</item>
+        <item id="51">Llaillay</item>
+        <item id="52">Panquehue</item>
+        <item id="53">Putaendo</item>
+        <item id="54">Santa María</item>
+    </string-array>
+
+    <string-array name="spinner_marga_marga">
+        <item id="49">Limache</item>
+        <item id="50">Quilpué</item>
+        <item id="51">Villa Alemana</item>
+        <item id="52">Olmué</item>
+    </string-array>
+
+    <string-array name="spinner_cachapoal">
+        <item id="49">Rancagua</item>
+        <item id="50">Codegua</item>
+        <item id="51">Coinco</item>
+        <item id="52">Coltauco</item>
+        <item id="53">Doñihue</item>
+        <item id="54">Graneros</item>
+        <item id="54">Las Cabras</item>
+        <item id="54">Machalí</item>
+        <item id="54">Malloa</item>
+        <item id="54">Mostazal</item>
+        <item id="54">Olivar</item>
+        <item id="54">Peumo</item>
+        <item id="54">Pichidegua</item>
+        <item id="54">Quinta de Tilcoco</item>
+        <item id="54">Rengo</item>
+        <item id="54">Requínoa</item>
+        <item id="54">San Vicente</item>
+    </string-array>
+
+    <string-array name="spinner_cardenal_caro">
+        <item id="49">Pichilemu</item>
+        <item id="50">La Estrella</item>
+        <item id="51">Litueche</item>
+        <item id="52">Marchihue</item>
+        <item id="53">Navidad</item>
+        <item id="54">Paredones</item>
+    </string-array>
+
+    <string-array name="spinner_santiago">
+        <item id="49">Santiago</item>
+        <item id="49">Cerrillos</item>
+        <item id="49">Cerro Navia</item>
+        <item id="49">Conchalí</item>
+        <item id="49">El Bosque</item>
+        <item id="49">Estación Central</item>
+        <item id="49">Huechuraba</item>
+        <item id="49">Independencia</item>
+        <item id="49">La Cisterna</item>
+        <item id="49">La Florida</item>
+        <item id="49">La Granja</item>
+        <item id="49">La Pintana</item>
+        <item id="49">La Reina</item>
+        <item id="49">Las Condes</item>
+        <item id="49">Lo Barnechea</item>
+        <item id="49">Lo Espejo</item>
+        <item id="50">Lo Prado</item>
+        <item id="51">Macul</item>
+        <item id="51">Maipú</item>
+        <item id="51">Ñuñoa</item>
+        <item id="51">Pedro Aguirre Cerda</item>
+        <item id="51">Peñalolén</item>
+        <item id="51">Providencia</item>
+        <item id="51">Pudahuel</item>
+        <item id="51">Quilicura</item>
+        <item id="51">Quinta Normal</item>
+        <item id="51">Recoleta</item>
+        <item id="51">Renca</item>
+        <item id="51">San Joaquín</item>
+        <item id="51">San Miguel</item>
+        <item id="51">San Ramón</item>
+        <item id="51">Vitacura</item>
+    </string-array>
+
+    <string-array name="spinner_cordillera">
+        <item id="49">Puente Alto</item>
+        <item id="50">Pirque</item>
+        <item id="51">San José de Maipo</item>
+    </string-array>
+
+    <string-array name="spinner_maipo">
+        <item id="49">San Bernardo</item>
+        <item id="50">Buin</item>
+        <item id="51">Calera de Tango</item>
+        <item id="51">Paine</item>
+    </string-array>
+
+    <string-array name="spinner_melipilla">
+        <item id="49">Melipilla</item>
+        <item id="50">Alhué</item>
+        <item id="51">Curacaví</item>
+        <item id="52">María Pinto</item>
+        <item id="52">San Pedro</item>
+    </string-array>
+
+    <string-array name="spinner_talagante">
+        <item id="49">Talagante</item>
+        <item id="50">El Monte</item>
+        <item id="51">Isla de Maipo</item>
+        <item id="52">Padre Hurtado</item>
+        <item id="52">Peñaflor</item>
+    </string-array>
+
+</resources>

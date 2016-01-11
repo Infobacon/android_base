@@ -8,7 +8,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.usach.tbdgrupo7.iservifast.Model.Oferta;
-import com.usach.tbdgrupo7.iservifast.Views.MainActivity;
+import com.usach.tbdgrupo7.iservifast.Views.FavoritosActivity;
 import com.usach.tbdgrupo7.iservifast.utilities.SSLTrust;
 
 import org.json.JSONArray;
@@ -22,14 +22,14 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Scanner;
 
-public class OfrecerGet extends AsyncTask<String, Void, String> {
+public class OfrecerGet2 extends AsyncTask<String, Void, String> {
 
     private SSLTrust sT;
-    private MainActivity mainActivity;
+    private FavoritosActivity favoritosActivity;
     private Oferta servicios[];
 
-    public OfrecerGet(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
+    public OfrecerGet2(FavoritosActivity favoritosActivity) {
+        this.favoritosActivity = favoritosActivity;
         this.sT = new SSLTrust();
     }
 
@@ -62,7 +62,7 @@ public class OfrecerGet extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         getServiciosOfrecidos(result);
-        mainActivity.listarServicios(servicios);
+        favoritosActivity.listarServicios(servicios);
     }
 
     public void getServiciosOfrecidos(String json) {

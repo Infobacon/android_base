@@ -14,6 +14,7 @@ public class ServicioOfrecidoActivity extends AppCompatActivity {
     private TextView precio;
     private TextView categoria;
     private TextView nombre_vendedor;
+    private TextView usuario_vendedor;
     private TextView region_vendedor;
     private TextView descripcion;
 
@@ -27,15 +28,16 @@ public class ServicioOfrecidoActivity extends AppCompatActivity {
        titulo = (TextView) findViewById(R.id.titulo_servicio);
        precio = (TextView) findViewById(R.id.precio_servicio);
        categoria = (TextView) findViewById(R.id.categoria_servicio);
-       nombre_vendedor = (TextView) findViewById(R.id.nombre_vendedor);
+       //nombre_vendedor = (TextView) findViewById(R.id.nombre_vendedor);
+       usuario_vendedor = (TextView) findViewById(R.id.usuario_vendedor);
        region_vendedor = (TextView) findViewById(R.id.region_vendedor);
        descripcion = (TextView) findViewById(R.id.descripcion_servicio);
 
        titulo.setText(servicio.getTitulo());
        precio.setText(Integer.toString(servicio.getPrecio()));
-       categoria.setText(Integer.toString(servicio.getCategoria_idCategoria()));
-       nombre_vendedor.setText(Integer.toString(servicio.getUsuario_idUsuario()));
-       region_vendedor.setText(Integer.toString(servicio.getComunidad_idComunidad()));
+       categoria.setText(servicio.getCategoria());
+       usuario_vendedor.setText(servicio.getUsuario());
+       region_vendedor.setText(servicio.getRegion());
        descripcion.setText(servicio.getDescripcion());
        //llenarServicio();
     }

@@ -67,6 +67,11 @@ public class SolicitarActivity extends AppCompatActivity {
         adapter=new ArrayAdapter<String>(this,R.layout.activity_ofrecer,R.id.spinner_categorias,listItems);
         sp.setAdapter(adapter);
         */
+        Spinner spinner = new Spinner(this);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.spinner_regiones)); //selected item will look like a spinner set from XML
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerArrayAdapter);
+
 
         btn_tomar_foto = (Button) findViewById(R.id.btn_tomar_foto);
         btn_seleccionar_foto = (Button) findViewById(R.id.btn_seleccionar_foto);
@@ -105,7 +110,9 @@ public class SolicitarActivity extends AppCompatActivity {
 
                 String titulo = ((EditText) findViewById(R.id.input_titulo)).getText().toString();
                 String descripcion = ((EditText) findViewById(R.id.input_descripcion)).getText().toString();
-                String categoria = ((EditText) findViewById(R.id.input_categoria)).getText().toString();
+                //String categoria = ((EditText) findViewById(R.id.input_categoria)).getText().toString();
+
+
                 String precio = ((EditText) findViewById(R.id.input_precio)).getText().toString();
                 Date d = new Date();
 

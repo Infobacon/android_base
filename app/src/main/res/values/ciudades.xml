@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_arica_y_parinacota">
+        <item id="1">Arica</item>
+        <item id="2">Parinacota</item>
+    </string-array>
+
+    <string-array name="spinner_tarapaca">
+        <item id="3">Iquique</item>
+        <item id="4">Tamarugal</item>
+    </string-array>
+
+    <string-array name="spinner_ciudad_antofagasta">
+        <item id="5">Antofagasta</item>
+        <item id="6">El Loa</item>
+        <item id="7">Tocopilla</item>
+    </string-array>
+
+    <string-array name="spinner_ciudad_copiapo">
+        <item id="8">Copiapó</item>
+        <item id="9">Chañaral</item>
+        <item id="10">Huasco</item>
+    </string-array>
+
+    <string-array name="spinner_coquimbo">
+        <item id="11">Elqui</item>
+        <item id="12">Choapa</item>
+        <item id="13">Limarí</item>
+    </string-array>
+
+    <string-array name="spinner_ciudad_valparaiso">
+        <item id="14">Valparaíso</item>
+        <item id="15">Isla de Pascua</item>
+        <item id="16">Los Andes</item>
+        <item id="17">Petorca</item>
+        <item id="18">Quillota</item>
+        <item id="19">San Antonio</item>
+        <item id="20">San Felipe de Aconcagua</item>
+        <item id="21">Marga Marga</item>
+    </string-array>
+
+    <string-array name="spinner_ohiggins">
+        <item id="22">Cachapoal</item>
+        <item id="23">Cardenal Caro</item>
+        <item id="24">Colchagua</item>
+    </string-array>
+
+    <string-array name="spinner_maule">
+        <item id="25">Talca</item>
+        <item id="26">Cauquenes</item>
+        <item id="27">Curicó</item>
+        <item id="28">Linares</item>
+    </string-array>
+
+    <string-array name="spinner_biobio">
+        <item id="29">Concepción</item>
+        <item id="30">Arauco</item>
+        <item id="31">Biobío</item>
+        <item id="32">Ñuble</item>
+    </string-array>
+
+    <string-array name="spinner_araucania">
+        <item id="33">Cautín</item>
+        <item id="34">Malleco</item>
+    </string-array>
+
+    <string-array name="spinner_rios">
+        <item id="35">Valdivia</item>
+        <item id="36">Ranco</item>
+    </string-array>
+
+    <string-array name="spinner_lagos">
+        <item id="37">Llanquihue</item>
+        <item id="38">Chiloé</item>
+        <item id="39">Osorno</item>
+        <item id="40">Palena</item>
+    </string-array>
+
+    <string-array name="spinner_aysen">
+        <item id="41">Coihaique</item>
+        <item id="42">Aysén</item>
+        <item id="43">Capitán Prat</item>
+        <item id="44">General Carrera</item>
+    </string-array>
+
+    <string-array name="spinner_magallanes">
+        <item id="45">Magallanes</item>
+        <item id="46">Antártica Chilena</item>
+        <item id="47">Tierra del Fuego</item>
+        <item id="48">Ultima Esperanza</item>
+    </string-array>
+
+    <string-array name="spinner_metropolitana">
+        <item id="49">Santiago</item>
+        <item id="50">Cordillera</item>
+        <item id="51">Chacabuco</item>
+        <item id="52">Maipo</item>
+        <item id="53">Melipilla</item>
+        <item id="54">Talagante</item>
+    </string-array>
+</resources>

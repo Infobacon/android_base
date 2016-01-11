@@ -27,9 +27,9 @@ public class LoginActivity extends AppCompatActivity {
     private String user_text;
     private String pass_text;
     private final short largoMinUsuario = 6;
-    private final short largoMaxUsuario = 12;
+    private final short largoMaxUsuario = 16;
     private final short largoMinPassword = 6;
-    private final short largoMaxPassword = 12;
+    private final short largoMaxPassword = 16;
     private ProgressDialog dialogAutentificando;
     private BroadcastReceiver br = null;
 
@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess(Usuario user) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.putExtra("usuario", user.getUsuario());
+        intent.putExtra("usuario", user);
         /*intent.putExtra("idUsuario", user.getIdUsuario());
         intent.putExtra("password", user.getPassword());
         intent.putExtra("nombre", user.getNombre());

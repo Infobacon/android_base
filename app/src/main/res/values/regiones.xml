@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_regiones">
+        <item id="13">REGIÓN METROPOLITANA</item>
+        <item id="15">ARICA Y PARINACOTA</item>
+        <item id="1">TARAPACÁ</item>
+        <item id="2">ANTOFAGASTA</item>
+        <item id="3">ATACAMA</item>
+        <item id="4">COQUIMBO</item>
+        <item id="5">VALPARAÍSO</item>
+        <item id="6">REGION DEL LIBERTADOR GRAL. BERNARDO OHIGGINS</item>
+        <item id="7">REGIÓN DEL MAULE</item>
+        <item id="8">REGIÓN DEL BIOBÍO</item>
+        <item id="9">REGIÓN DE LA ARAUCANÍA</item>
+        <item id="14">REGIÓN DE LOS RÍOS</item>
+        <item id="10">REGIÓN DE LOS LAGOS</item>
+        <item id="11">REGIÓN AISÉN DEL GRAL. CARLOS IBAÑEZ DEL CAMPO</item>
+        <item id="12">REGIÓN MAGALLANES Y DE LA ANTÁRTICA CHILENA</item>
+    </string-array>
+</resources>
