@@ -62,6 +62,7 @@ public class OfrecerActivity extends AppCompatActivity {
     private Button btn_tomar_foto;
     private Button btn_seleccionar_foto;
     private Button btn_enviar;
+    private static final int FILE_PICK = 1001;
     private int PICK_IMAGE_REQUEST = 1;
     private static final int MEDIA_TYPE_IMAGE = 1;
     private static final int MEDIA_TYPE_VIDEO = 2;
@@ -143,13 +144,9 @@ public class OfrecerActivity extends AppCompatActivity {
 
         btn_seleccionar_foto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-
-                Intent intent = new Intent();
-                // Show only images, no videos or anything else
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                // Always show the chooser (if there are multiple options available)
-                startActivityForResult(Intent.createChooser(intent, "Seleccionar imagen"), PICK_IMAGE_REQUEST);
+                OfrecerActivity.this.startActivityForResult(intent, FILE_PICK);
             }
         });
 
@@ -332,7 +329,7 @@ public class OfrecerActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if (requestCode == FILE_PICK && resultCode == RESULT_OK && data != null && data.getData() != null) {
             try {
 
                 Uri uri = data.getData();

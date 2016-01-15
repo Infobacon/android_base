@@ -2,7 +2,6 @@ package com.usach.tbdgrupo7.iservifast.services;
 
 import android.content.Context;
 
-import com.usach.tbdgrupo7.iservifast.helpers.NotificationHelper;
 import com.usach.tbdgrupo7.iservifast.imgurmodel.ImageResponse;
 import com.usach.tbdgrupo7.iservifast.imgurmodel.ImgurAPI;
 import com.usach.tbdgrupo7.iservifast.imgurmodel.Upload;
@@ -13,9 +12,6 @@ import java.lang.ref.WeakReference;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import retrofit.mime.TypedFile;
 
 /**
  * Created by AKiniyalocts on 1/12/15.

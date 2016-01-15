@@ -14,6 +14,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Dark">
         <activity
@@ -28,9 +29,11 @@
         </activity>
         <activity
             android:name=".Views.SolicitarActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Views.RegistrarActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark1" />
         <activity
             android:name=".Views.OfrecerActivity"
@@ -39,27 +42,34 @@
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Views.MainActivity"
+            android:screenOrientation="portrait"
             android:label="Servicios Ofrecidos"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Views.ServicioOfrecidoActivity"
             android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Views.FavoritosActivity"
             android:label="Favoritos"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".Views.MisServiciosOfrecidosActivity"
+            android:screenOrientation="portrait"
             android:label="Mis servicios ofrecidos"
             android:theme="@style/AppTheme.Dark" />
         <activity android:name=".Views.ServiciosSolicitadosActivity"
+            android:screenOrientation="portrait"
             android:label="Servicios solicitados"
             android:theme="@style/AppTheme.Dark" />
         <activity android:name=".Views.MisServiciosSolicitados"
+            android:screenOrientation="portrait"
             android:label="Mis servicios solicitados"
             android:theme="@style/AppTheme.Dark" />
         <activity android:name=".Views.ServicioSolicitadoActivity"
+            android:screenOrientation="portrait"
             android:label="Servicio Solicitado"
             android:theme="@style/AppTheme.Dark" />
     </application>
