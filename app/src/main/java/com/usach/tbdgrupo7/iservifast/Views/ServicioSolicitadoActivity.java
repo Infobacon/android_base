@@ -55,4 +55,9 @@ public class ServicioSolicitadoActivity extends AppCompatActivity {
         descripcion.setText(servicio.getDescripcion());
     }
 
+    public void onBackPressed() {
+        this.finish();
+        overridePendingTransition(R.transition.slide_left_in, R.transition.slide_right_out);
+    }
+
 }

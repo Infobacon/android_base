@@ -123,4 +123,10 @@ public class ServicioOfrecidoActivity extends AppCompatActivity {
             img.setImageResource(R.drawable.on);
         }
     }
+
+    public void onBackPressed() {
+        this.finish();
+        overridePendingTransition(R.transition.slide_left_in, R.transition.slide_right_out);
+    }
+
 }

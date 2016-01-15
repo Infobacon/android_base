@@ -3,6 +3,7 @@ package com.usach.tbdgrupo7.iservifast.Views;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -25,6 +26,7 @@ import com.usach.tbdgrupo7.iservifast.Model.Favorito;
 import com.usach.tbdgrupo7.iservifast.Model.OfertaGet;
 import com.usach.tbdgrupo7.iservifast.Model.Usuario;
 import com.usach.tbdgrupo7.iservifast.R;
+import com.usach.tbdgrupo7.iservifast.utilities.DescargarImagen3;
 import com.usach.tbdgrupo7.iservifast.utilities.SystemUtilities;
 
 public class FavoritosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -120,11 +122,14 @@ public class FavoritosActivity extends AppCompatActivity implements NavigationVi
         int j = 0;
         int largo_favoritos = favoritos.length;
         OfertaGet[] servs = new OfertaGet[largo_favoritos];
+        Bitmap imagen_blanco = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.no_image);
+        imagenes = new Bitmap[servicios.length];
         if(largo_favoritos>0) {
             for (j=0;j<largo_favoritos;j++) {
                 for (i = 0; i < servicios.length; i++) {
                     if (servicios[i].getIdServicio() == favoritos[j].getServicio_idServicio()) {
                         servs[j] = servicios[i];
+                        new DescargarImagen3(this,i);
                     }
                 }
             }
@@ -134,6 +139,12 @@ public class FavoritosActivity extends AppCompatActivity implements NavigationVi
             adapter = new CustomListAdapter(this, titulos, descripciones, imagenes);
             list.setAdapter(adapter);
         }
+    }
+
+    public void llegoImagen(int position,Bitmap bitmap){
+        imagenes[position] = bitmap;
+        adapter.notifyDataSetChanged();
+        System.out.println("llegoImagen");
     }
 
     private String[] crearArrayTitulo(OfertaGet[] servicios){

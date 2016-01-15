@@ -122,8 +122,7 @@ public class MainActivity extends AppCompatActivity
     public void llegoImagen(int position,Bitmap bitmap){
         imagenes[position] = bitmap;
         adapter.notifyDataSetChanged();
-        System.out.println("llegoImagen");
-    }
+   }
 
     public void listarServiciosOfrecidos(OfertaGet[] serviciosOfrecidos){
         this.servicios = serviciosOfrecidos;

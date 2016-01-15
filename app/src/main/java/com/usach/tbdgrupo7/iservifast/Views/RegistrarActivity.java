@@ -170,7 +170,7 @@ public class RegistrarActivity extends AppCompatActivity {
     public void enviarJsonYLoguear(Usuario usuario){
         JsonHandler jh = new JsonHandler();
         JSONObject json = jh.setUsuario(usuario);
-        new RegistrarPost(this, usuario).execute(getResources().getString(R.string.servidor)+"Usuario/crear",json.toString());
+        new RegistrarPost(this, usuario).execute(getResources().getString(R.string.servidor) + "Usuario/crear", json.toString());
     }
 
     public void abrirProgressDialog(){
@@ -183,12 +183,6 @@ public class RegistrarActivity extends AppCompatActivity {
     public void cerrarProgressDialog(){
         progressDialog.dismiss();
         _signupButton.setEnabled(true);
-    }
-
-    @Override
-    public void onBackPressed() {
-        moveTaskToBack(true);
-        finish();
     }
 
     private void camposInvalidos(){
@@ -275,4 +269,10 @@ public class RegistrarActivity extends AppCompatActivity {
 
         return valid;
     }
+
+    public void onBackPressed() {
+        this.finish();
+        overridePendingTransition(R.transition.slide_left_in, R.transition.slide_right_out);
+    }
+
 }

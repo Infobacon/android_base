@@ -3,6 +3,7 @@ package com.usach.tbdgrupo7.iservifast.Views;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,6 +24,7 @@ import com.usach.tbdgrupo7.iservifast.Model.Comunidad;
 import com.usach.tbdgrupo7.iservifast.Model.OfertaGet;
 import com.usach.tbdgrupo7.iservifast.Model.Usuario;
 import com.usach.tbdgrupo7.iservifast.R;
+import com.usach.tbdgrupo7.iservifast.utilities.DescargarImagen4;
 import com.usach.tbdgrupo7.iservifast.utilities.SystemUtilities;
 
 public class MisServiciosOfrecidosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -100,8 +102,21 @@ public class MisServiciosOfrecidosActivity extends AppCompatActivity implements 
         this.servicios = servicios;
         titulos = crearArrayTitulo(servicios);
         descripciones = crearArrayDescripcion(servicios);
+        int i,largo;
+        largo=servicios.length;
+        Bitmap imagen_blanco = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.no_image);
+        imagenes = new Bitmap[largo];
+        for(i=0;i<largo;i++){
+            imagenes[i]=imagen_blanco;
+            new DescargarImagen4(this,i);
+        }
         adapter = new CustomListAdapter(this, titulos, descripciones, imagenes);
         list.setAdapter(adapter);
+    }
+
+    public void llegoImagen(int position,Bitmap bitmap){
+        imagenes[position] = bitmap;
+        adapter.notifyDataSetChanged();
     }
 
     private String[] crearArrayTitulo(OfertaGet[] servicios){
@@ -218,6 +233,17 @@ public class MisServiciosOfrecidosActivity extends AppCompatActivity implements 
 
     public void error_internet(){
         Toast.makeText(MisServiciosOfrecidosActivity.this, getResources().getString(R.string.error_servidor), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            this.finish();
+            overridePendingTransition(R.transition.slide_left_in, R.transition.slide_right_out);
+        }
     }
 
 }

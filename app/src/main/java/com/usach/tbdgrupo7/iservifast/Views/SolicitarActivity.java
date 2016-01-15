@@ -416,14 +416,6 @@ public class SolicitarActivity extends AppCompatActivity {
         Toast.makeText(SolicitarActivity.this, getResources().getString(R.string.error_servidor), Toast.LENGTH_SHORT).show();
     }
 
-    public void onBackPressed() {
-
-        this.finish();
-        overridePendingTransition(R.transition.slide_left_in, R.transition.slide_right_out);
-
-    }
-
-
     @OnClick(R.id.output_photo)
     public void onChooseImage() {
         uploadDesc.clearFocus();
@@ -466,4 +458,10 @@ public class SolicitarActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void onBackPressed() {
+        this.finish();
+        overridePendingTransition(R.transition.slide_left_in, R.transition.slide_right_out);
+    }
+
 }
