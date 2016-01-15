@@ -1,6 +1,7 @@
 package com.usach.tbdgrupo7.iservifast.Views;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +20,16 @@ public class CustomListAdapter extends ArrayAdapter<String> {
     private final Activity context;
     private final String[] titulos;
     private final String[] descripciones;
-    private final Integer[] imgid;
+    private final Bitmap[] imagenes;
 
-    public CustomListAdapter(Activity context, String[] titulos, String[] descripciones , Integer[] imgid) {
+    public CustomListAdapter(Activity context, String[] titulos, String[] descripciones , Bitmap[] imagenes) {
         super(context, R.layout.mylist, titulos);
         // TODO Auto-generated constructor stub
 
         this.context=context;
         this.titulos=titulos;
         this.descripciones=descripciones;
-        this.imgid=imgid;
+        this.imagenes=imagenes;
     }
 
     public View getView(int position,View view,ViewGroup parent) {
@@ -40,7 +41,7 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         TextView extratxt = (TextView) rowView.findViewById(R.id.textView1);
 
         txtTitle.setText(titulos[position]);
-        imageView.setImageResource(imgid[position]);
+        imageView.setImageBitmap(imagenes[position]);
         extratxt.setText(descripciones[position]);
         return rowView;
     };

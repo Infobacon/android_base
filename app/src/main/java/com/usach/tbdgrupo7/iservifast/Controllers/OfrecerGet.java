@@ -7,7 +7,7 @@ package com.usach.tbdgrupo7.iservifast.Controllers;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.usach.tbdgrupo7.iservifast.Model.Oferta;
+import com.usach.tbdgrupo7.iservifast.Model.OfertaGet;
 import com.usach.tbdgrupo7.iservifast.Views.MainActivity;
 import com.usach.tbdgrupo7.iservifast.utilities.SSLTrust;
 
@@ -26,7 +26,7 @@ public class OfrecerGet extends AsyncTask<String, Void, String> {
 
     private SSLTrust sT;
     private MainActivity mainActivity;
-    private Oferta servicios[];
+    private OfertaGet servicios[];
 
     public OfrecerGet(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
@@ -61,18 +61,22 @@ public class OfrecerGet extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        getServiciosOfrecidos(result);
-        mainActivity.listarServicios(servicios);
+        if (result != null) {
+            getServiciosOfrecidos(result);
+            mainActivity.listarServiciosOfrecidos(servicios);
+        }
+        else{
+            mainActivity.error_internet();
+        }
     }
-
     public void getServiciosOfrecidos(String json) {
         try {
             JSONArray ja = new JSONArray(json);;
-            servicios = new Oferta[ja.length()];
+            servicios = new OfertaGet[ja.length()];
             String precio;
             for (int i = 0; i < ja.length(); i++) {
                 JSONObject row = ja.getJSONObject(i);
-                Oferta servicio = new Oferta();
+                OfertaGet servicio = new OfertaGet();
                 servicio.setCategoria_idCategoria(row.getInt("categoria_idCategoria"));
                 servicio.setCategoria(row.getString("catnombre"));
                 servicio.setComunidad(row.getString("comnombre"));
@@ -80,13 +84,7 @@ public class OfrecerGet extends AsyncTask<String, Void, String> {
                 servicio.setIdServicio(row.getInt("idServicio"));
                 servicio.setRegion(row.getString("region"));
                 servicio.setUsuario(row.getString("unick"));
-                precio = row.getString("precio");
-                if(precio.equals("")==true){
-                    servicio.setPrecio(-1);
-                }
-                else{
-                    servicio.setPrecio(Integer.parseInt(precio));
-                }
+                servicio.setPrecio(row.getString("precio"));
                 servicio.setTitulo(row.getString("titulo"));
                 servicio.setUsuario_idUsuario(row.getInt("usuario_idUsuario"));
                 servicios[i]=servicio;

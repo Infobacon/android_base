@@ -4,41 +4,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="#fcfcfc"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_main"
     tools:context="com.usach.tbdgrupo7.iservifast.Views.MainActivity">
 
-    <Button
-        android:layout_width="167dp"
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ofrecer"
-        android:id="@+id/btn_ofrecer"
-        android:layout_gravity="left|top"
-        tools:context="{relativePackage}.${activityClass}"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Solicitar"
-        android:id="@+id/btn_solicitar"
-        android:layout_gravity="right|center_vertical"
-        android:layout_alignTop="@+id/btn_ofrecer"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/btn_ofrecer" />
-
-
-        <ListView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_solicitar"
-            android:layout_alignParentLeft="true">
-        </ListView>
+        android:layout_alignParentLeft="true"
+        android:divider="@color/iron"
+        android:dividerHeight="4px"
+        >
+    </ListView>
 
 </RelativeLayout>

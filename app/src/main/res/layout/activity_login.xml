@@ -28,6 +28,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
+        android:text="holasoyivan"
         android:id="@+id/input_user"
         android:hint="Usuario" />
 
@@ -40,6 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
+            android:text="123456"
             android:hint="Contraseña"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -50,7 +52,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp"
         android:padding="12dp"
-        android:text="Loguear"/>
+        android:text="Ingresar"/>
 
     <TextView android:id="@+id/link_signup"
         android:layout_width="fill_parent"

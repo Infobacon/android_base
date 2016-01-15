@@ -1,7 +1,7 @@
 package com.usach.tbdgrupo7.iservifast.Views;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -14,7 +14,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -24,9 +26,17 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.usach.tbdgrupo7.iservifast.Controllers.OfrecerPost;
+import com.usach.tbdgrupo7.iservifast.Controllers.SolicitarPost;
+import com.usach.tbdgrupo7.iservifast.Model.Categoria;
+import com.usach.tbdgrupo7.iservifast.Model.Comunidad;
 import com.usach.tbdgrupo7.iservifast.Model.Oferta;
+import com.usach.tbdgrupo7.iservifast.Model.Usuario;
 import com.usach.tbdgrupo7.iservifast.R;
+import com.usach.tbdgrupo7.iservifast.helpers.DocumentHelper;
+import com.usach.tbdgrupo7.iservifast.helpers.IntentHelper;
+import com.usach.tbdgrupo7.iservifast.imgurmodel.ImageResponse;
+import com.usach.tbdgrupo7.iservifast.imgurmodel.Upload;
+import com.usach.tbdgrupo7.iservifast.services.UploadService;
 import com.usach.tbdgrupo7.iservifast.utilities.JsonHandler;
 
 import org.json.JSONObject;
@@ -41,37 +51,91 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import butterknife.Bind;
+import butterknife.OnClick;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 public class SolicitarActivity extends AppCompatActivity {
 
     private Button btn_tomar_foto;
     private Button btn_seleccionar_foto;
     private Button btn_enviar;
     private int PICK_IMAGE_REQUEST = 1;
-    public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int MEDIA_TYPE_VIDEO = 2;
+    private static final int MEDIA_TYPE_IMAGE = 1;
+    private static final int MEDIA_TYPE_VIDEO = 2;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private Uri fileUri = null;
-    public String mPath;
-    public Spinner sp;
-    public ArrayAdapter<String> adapter;
-    public ArrayList<String> listItems=new ArrayList<>();
+    private String mPath;
+    private Spinner sp;
+    private Spinner sp1;
+    private ArrayList<String> categoriaItems=new ArrayList<>();
+    private ArrayList<String> comunidadItems=new ArrayList<>();
     private BroadcastReceiver br = null;
+    private Usuario user;
+    private Categoria[] categorias;
+    private Comunidad[] comunidades;
+    private ProgressDialog progressDialog;
+
+    private String titulo;
+    private String descripcion;
+    private String precio;
+    private int idCat;
+
+    public final static String TAG = OfrecerActivity.class.getSimpleName();
+
+    /*
+      These annotations are for ButterKnife by Jake Wharton
+      https://github.com/JakeWharton/butterknife
+     */
+    @Bind(R.id.output_photo)
+    ImageView uploadImage;
+    @Bind(R.id.input_titulo)
+    EditText uploadTitle;
+    @Bind(R.id.input_descripcion)
+    EditText uploadDesc;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+
+    private Upload upload; // Upload object containging image and meta data
+    private File chosenFile; //chosen file from intent
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ofrecer);
+        setContentView(R.layout.activity_solicitar);
 
-        /*
+        user = (Usuario) (getIntent().getSerializableExtra("usuario"));
+        categorias = (Categoria[]) (getIntent().getSerializableExtra("categorias"));
+        comunidades = (Comunidad[]) (getIntent().getSerializableExtra("comunidades"));
+
+        String[] cats = new String[categorias.length];
+        String[] coms = new String[comunidades.length];
+
+        progressDialog = new ProgressDialog(SolicitarActivity.this,R.style.AppTheme_Dark_Dialog);
+
+
+        int i;
+        for(i=0;i<cats.length;i++){
+            categoriaItems.add(categorias[i].getNombre());
+        }
+
+
+        for(i=0;i<coms.length;i++){
+            comunidadItems.add(comunidades[i].getNombre());
+        }
+
         sp=(Spinner)findViewById(R.id.spinner_categorias);
-        adapter=new ArrayAdapter<String>(this,R.layout.activity_ofrecer,R.id.spinner_categorias,listItems);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, categoriaItems);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp.setAdapter(adapter);
-        */
-        Spinner spinner = new Spinner(this);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.spinner_regiones)); //selected item will look like a spinner set from XML
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerArrayAdapter);
 
+        sp1=(Spinner)findViewById(R.id.spinner_comunidades);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, comunidadItems);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp1.setAdapter(adapter1);
 
         btn_tomar_foto = (Button) findViewById(R.id.btn_tomar_foto);
         btn_seleccionar_foto = (Button) findViewById(R.id.btn_seleccionar_foto);
@@ -106,49 +170,38 @@ public class SolicitarActivity extends AppCompatActivity {
 
         btn_enviar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
+
+                if (chosenFile == null) return;
+                createUpload(chosenFile);
+
+                abrirProgressDialog();
+
+                new UploadService(getApplicationContext()).Execute(upload, new UiCallback());
+
                 IntentFilter intentFilter = new IntentFilter("httpPost");
 
-                String titulo = ((EditText) findViewById(R.id.input_titulo)).getText().toString();
-                String descripcion = ((EditText) findViewById(R.id.input_descripcion)).getText().toString();
-                //String categoria = ((EditText) findViewById(R.id.input_categoria)).getText().toString();
+                Spinner spinner_categorias = (Spinner) findViewById(R.id.spinner_categorias);
+                String categoria = spinner_categorias.getSelectedItem().toString();
 
+                //Spinner spinner_comunidad = (Spinner)findViewById(R.id.spinner_comunidades);
+                //String comunidad = spinner_comunidad.getSelectedItem().toString();
 
-                String precio = ((EditText) findViewById(R.id.input_precio)).getText().toString();
-                Date d = new Date();
+                //int idCom = comunidadItems.indexOf(comunidad);
 
-                // no tiene id asignado actualmente
-                Oferta a = new Oferta();
-                a.setTitulo(titulo);
-                a.setDescripcion(descripcion);
-                a.setCategoria_idCategoria(0);
-                a.setComunidad_idComunidad(0);
-                a.setDuracion(123);
-                a.setPrecio(Integer.parseInt(precio));
-                a.setFecha(d);
-                //a.setUsuario_idUsuario(Integer.parseInt(id_usuario));
-                a.setUsuario_idUsuario(0);
+                titulo = ((EditText) findViewById(R.id.input_titulo)).getText().toString();
+                descripcion = ((EditText) findViewById(R.id.input_descripcion)).getText().toString();
+                idCat = (categoriaItems.indexOf(categoria));
+                precio = ((EditText) findViewById(R.id.input_precio)).getText().toString();
 
-                JsonHandler jh = new JsonHandler();
-                JSONObject jObject = jh.setOferta(a);
-
-                br = new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        String result = intent.getStringExtra("post");
-                        if(result.equals("OK")){
-                            Toast.makeText(getApplicationContext(),"Servicio creado exitosamente",Toast.LENGTH_SHORT);
-                            Intent intent1 = new Intent(getApplicationContext(),MainActivity.class);
-                            startActivity(intent1);
-                        }
-                        else{
-                            Toast.makeText(getApplicationContext(),"Problemas al crear el servicio",Toast.LENGTH_SHORT);
-                        }
-                    }
-                };
-                getApplicationContext().registerReceiver(br, intentFilter);
-                new OfrecerPost(getApplicationContext().getApplicationContext()).execute(getResources().getString(R.string.servidor)+"Solicitud/crear",jObject.toString());
             }
         });
+    }
+
+    public void iniciarMain(){
+        cerrarProgressDialog();
+        Intent intent1 = new Intent(getApplicationContext(),MainActivity.class);
+        intent1.putExtra("usuario",user);
+        startActivity(intent1);
     }
 
     /** Create a file Uri for saving an image or video */
@@ -280,12 +333,28 @@ public class SolicitarActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri uri = data.getData();
             try {
+
+                Uri uri = data.getData();
+
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 ImageView imageView = (ImageView) findViewById(R.id.output_photo);
                 bitmap = rotateBitmap(mPath,bitmap);
                 imageView.setImageBitmap(bitmap);
+
+
+                String filePath = DocumentHelper.getPath(this, uri);
+                //Safety check to prevent null pointer exception
+                if (filePath == null || filePath.isEmpty()) return;
+                chosenFile = new File(filePath);
+
+                /*
+                    Picasso is a wonderful image loading tool from square inc.
+                    https://github.com/square/picasso
+                 */
+
+
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -298,6 +367,17 @@ public class SolicitarActivity extends AppCompatActivity {
             imageView.setImageBitmap(bitmap);
         }
     }
+
+    public void abrirProgressDialog(){
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Enviando datos, espere por favor...");
+        progressDialog.show();
+    }
+
+    public void cerrarProgressDialog(){
+        progressDialog.dismiss();
+    }
+
 
     private Bitmap rotateImage(Bitmap src, float degree) {
         // create new matrix object
@@ -330,5 +410,60 @@ public class SolicitarActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return bitmap;
+    }
+
+    public void error_internet(){
+        Toast.makeText(SolicitarActivity.this, getResources().getString(R.string.error_servidor), Toast.LENGTH_SHORT).show();
+    }
+
+    public void onBackPressed() {
+
+        this.finish();
+        overridePendingTransition(R.transition.slide_left_in, R.transition.slide_right_out);
+
+    }
+
+
+    @OnClick(R.id.output_photo)
+    public void onChooseImage() {
+        uploadDesc.clearFocus();
+        uploadTitle.clearFocus();
+        IntentHelper.chooseFileIntent(this);
+    }
+
+    private void createUpload(File image) {
+        upload = new Upload();
+
+        upload.image = image;
+        upload.title = titulo;
+        upload.description = descripcion;
+    }
+
+    private class UiCallback implements Callback<ImageResponse> {
+
+        @Override
+        public void success(ImageResponse imageResponse, Response response) {
+            //onsuccess image upload
+
+            Oferta a = new Oferta();//duracion y promedio por defecto en constructor
+            a.setTitulo(titulo);
+            a.setDescripcion(descripcion);
+            a.setCategoria_idCategoria(1);
+            a.setComunidad_idComunidad(2);
+            a.setPrecio(precio);
+            a.setUsuario_idUsuario(user.getIdUsuario());
+            a.setImagen(imageResponse.data.link);
+            JsonHandler jh = new JsonHandler();
+            JSONObject jObject = jh.setOferta(a);
+            new SolicitarPost(SolicitarActivity.this).execute(getResources().getString(R.string.servidor) + "Solicitud/crear", jObject.toString());
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+            //Assume we have no connection, since error is null
+            if (error == null) {
+                Snackbar.make(findViewById(R.id.rootview), "No internet connection", Snackbar.LENGTH_SHORT).show();
+            }
+        }
     }
 }

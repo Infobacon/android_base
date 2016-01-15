@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:fillViewport="false">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gris_fondo"
+
+        tools:context="com.usach.tbdgrupo7.iservifast.Views.ServicioActivity">
+
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/no_image"
+            android:id="@+id/imagen_servicio"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:background="@color/gris_fondo"
+            android:baselineAlignBottom="false"
+            android:clickable="false"
+            android:cropToPadding="false"
+            android:focusableInTouchMode="false"
+            android:focusable="false" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/imagen_servicio"
+            android:background="@color/white">
+
+            <RelativeLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentLeft="true"
+                android:background="@color/f3"
+                android:id="@+id/producto"
+                >
+
+                <ImageButton android:id="@+id/icono_favorito"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="#00ffffff"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="right"
+                    android:src="@drawable/star"
+                    />
+
+                <!--Titulo-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="55dp"
+                    android:id="@+id/titulo_servicio"
+                    android:textSize="25sp"
+                    android:textColor="@color/monsoo"
+                    android:paddingLeft="10dp"
+                    />
+
+                <!--Precio-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/label_precio"
+                    android:textColor="@color/black"
+                    android:text="$"
+                    android:textSize="25sp"
+                    android:layout_below="@+id/titulo_servicio"
+                    android:paddingLeft="10dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/precio_servicio"
+                    android:textSize="25dp"
+                    android:layout_above="@+id/label_categoria"
+                    android:layout_toRightOf="@+id/label_precio"
+                    android:paddingLeft="10dp"
+                    />
+
+                <!--Categoria-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/label_categoria"
+                    android:text="Categoria"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:layout_below="@+id/label_precio"
+                    android:paddingLeft="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/categoria_servicio"
+                    android:textSize="18sp"
+                    android:layout_below="@+id/label_categoria"
+                    android:paddingLeft="10dp"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/producto"
+                android:id="@+id/espacio1"
+                android:background="@color/f3"
+                >
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:id="@+id/vendedor"
+                android:layout_below="@+id/espacio1"
+                >
+
+                <!--Informacion del vendedor-->
+                <!--Nombre vendedor-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/label_nombreVendedor"
+                    android:textColor="@color/black"
+                    android:text="Información del vendedor"
+                    android:textSize="15dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/avatar_usuario"
+                    android:src="@drawable/usuario_gris"
+                    android:layout_below="@+id/label_nombreVendedor"
+                    android:paddingLeft="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/usuario_vendedor"
+                    android:textSize="13dp"
+                    android:layout_below="@+id/label_nombreVendedor"
+                    android:layout_toRightOf="@+id/avatar_usuario"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="5dp"
+                    />
+
+                <!--Region vendedor-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/label_region"
+                    android:textColor="@color/black"
+                    android:text="Región"
+                    android:textSize="15dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/usuario_vendedor"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+
+                    />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/icono_ubicacion"
+                    android:src="@drawable/icono_ubicacion"
+                    android:layout_below="@+id/label_region"
+                    android:paddingLeft="10dp"
+                    android:paddingBottom="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/region_vendedor"
+                    android:textSize="13dp"
+                    android:paddingTop="5dp"
+                    android:layout_below="@+id/label_region"
+                    android:layout_toRightOf="@+id/icono_ubicacion" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/vendedor"
+                android:id="@+id/espacio2"
+                android:background="@color/f3"
+                >
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/descripcion"
+                android:layout_below="@+id/espacio2"
+                >
+
+                <!--Descripcion del servicio-->
+                <TextView
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/label_descripcion"
+                    android:textColor="@color/black"
+                    android:text="Descripción"
+                    android:textSize="13dp"
+                    android:paddingLeft="10dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/descripcion_servicio"
+                    android:textSize="13dp"
+                    android:paddingLeft="20dp"
+                    android:visibility="visible"
+                    android:layout_marginTop="25dp"
+                    android:layout_below="@+id/label_descripcion"
+                    android:paddingBottom="30dp"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/descripcion"
+                >
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

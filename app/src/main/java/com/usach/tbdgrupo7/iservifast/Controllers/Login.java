@@ -66,16 +66,20 @@ public class Login extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        try {
-            resultadoValidaciones= validarCredenciales(result, input_usuario, input_password);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if(result!=null) {
+            try {
+                resultadoValidaciones = validarCredenciales(result, input_usuario, input_password);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (resultadoValidaciones == true) {
+                loginActivity.onLoginSuccess(user);
+            } else {//no hay coincidencias para el usuario y contraseña ingresados
+                loginActivity.onLoginFailed();
+            }
         }
-        if(resultadoValidaciones==true){
-            loginActivity.onLoginSuccess(user);
-        }
-        else{//no hay coincidencias para el usuario y contraseña ingresados
-            loginActivity.onLoginFailed();
+        else{
+            loginActivity.error_internet();
         }
     }
 

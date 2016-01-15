@@ -2,6 +2,7 @@ package com.usach.tbdgrupo7.iservifast.utilities;
 
 import android.util.Log;
 
+import com.usach.tbdgrupo7.iservifast.Model.Favorito;
 import com.usach.tbdgrupo7.iservifast.Model.Oferta;
 import com.usach.tbdgrupo7.iservifast.Model.Usuario;
 
@@ -64,9 +65,26 @@ public class JsonHandler {
             jsonObject.accumulate("descripcion", oferta.getDescripcion());
             jsonObject.accumulate("categoria_idCategoria", oferta.getCategoria_idCategoria());
             jsonObject.accumulate("comunidad_idComunidad", oferta.getComunidad_idComunidad());
+            jsonObject.accumulate("usuario_idUsuario", oferta.getUsuario_idUsuario());
             jsonObject.accumulate("duracion", oferta.getDuracion());
             jsonObject.accumulate("precio", oferta.getPrecio());
-            jsonObject.accumulate("fecha", oferta.getFecha().toString());
+            jsonObject.accumulate("fecha", oferta.getFecha());
+            jsonObject.accumulate("imagen", oferta.getImagen());
+            return jsonObject;
+
+        }catch(JSONException je){
+            Log.e("ERROR",this.getClass().toString()+ " - "+ je.getMessage());
+        }
+        return null;
+    }
+
+
+    public JSONObject setFavorito(Favorito favorito) {
+        // build jsonObject
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.accumulate("usuario_idUsuario", favorito.getUsuario_idUsuario());
+            jsonObject.accumulate("servicio_idServicio", favorito.getServicio_idServicio());
             return jsonObject;
 
         }catch(JSONException je){

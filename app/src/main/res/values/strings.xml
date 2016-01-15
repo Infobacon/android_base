@@ -16,7 +16,7 @@
     <string name="campos_invalidos">Formato de entrada inválido.</string>
     <string name="first">First</string>
     <string name="last">Last</string>
-
+    <string name="error_servidor">Estamos experimentando problemas en la conexion</string>
     <string-array name="nav_options">
         <item>Perfil</item>
         <item>Favoritos</item>
@@ -36,5 +36,15 @@
         <item>@drawable/ic_action_settings</item>
         <item>@drawable/ic_action_share</item>
     </array>
+
+
+    <string name="choose">Choose Image</string>
+    <string name="upload">Upload</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="notification_fail">Image failed to upload...</string>
+    <string name="notification_share_link">Share link</string>
+    <string name="notifaction_success">Successfully uploaded</string>
+    <string name="notification_progress">Uploading image...</string>
 
 </resources>

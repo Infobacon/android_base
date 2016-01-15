@@ -13,9 +13,25 @@
     <item android:title="Publicar">
         <menu>
             <item android:id="@+id/ofrecer_servicio" android:icon="@android:drawable/ic_menu_send"
-                android:title="Ofrecer un servicio"/>
+                android:title="Ofrecer un nuevo servicio"/>
             <item android:id="@+id/solicitar_servicio" android:icon="@android:drawable/ic_menu_send"
-                android:title="Solicitar un servicio"/>
+                android:title="Solicitar un nuevo servicio"/>
+        </menu>
+    </item>
+
+    <item android:title="Examinar">
+        <menu>
+            <item android:id="@+id/mis_servicios_ofrecidos" android:icon="@android:drawable/ic_menu_edit"
+                android:title="Mis servicios ofrecidos"/>
+            <item android:id="@+id/mis_servicios_solicitados" android:icon="@android:drawable/ic_menu_edit"
+                android:title="Mis servicios solicitados"/>
+        </menu>
+    </item>
+
+    <item android:title="Favoritos">
+        <menu>
+            <item android:id="@+id/mis_servicios_favoritos_ofrecidos" android:icon="@android:drawable/star_on"
+                android:title="Favoritos: Servicios ofrecidos"/>
         </menu>
     </item>
 

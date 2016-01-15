@@ -1,11 +1,12 @@
 package com.usach.tbdgrupo7.iservifast.Views;
 
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,8 +19,8 @@ import com.usach.tbdgrupo7.iservifast.Model.Usuario;
 import com.usach.tbdgrupo7.iservifast.R;
 import com.usach.tbdgrupo7.iservifast.utilities.SystemUtilities;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -31,18 +32,17 @@ public class LoginActivity extends AppCompatActivity {
     private final short largoMinPassword = 6;
     private final short largoMaxPassword = 16;
     private ProgressDialog dialogAutentificando;
-    private BroadcastReceiver br = null;
 
-    @InjectView(R.id.input_user)EditText _userText;
-    @InjectView(R.id.input_password) EditText _passwordText;
-    @InjectView(R.id.btn_login)Button _loginButton;
-    @InjectView(R.id.link_signup)TextView _signupLink;
+    @Bind(R.id.input_user)EditText _userText;
+    @Bind(R.id.input_password) EditText _passwordText;
+    @Bind(R.id.btn_login)Button _loginButton;
+    @Bind(R.id.link_signup)TextView _signupLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         dialogAutentificando = new ProgressDialog(LoginActivity.this,R.style.AppTheme_Dark_Dialog);
 
@@ -120,17 +120,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginSuccess(Usuario user) {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.putExtra("usuario", user);
-        /*intent.putExtra("idUsuario", user.getIdUsuario());
-        intent.putExtra("password", user.getPassword());
-        intent.putExtra("nombre", user.getNombre());
-        intent.putExtra("apellido", user.getApellido());
-        intent.putExtra("mail", user.getEmail());
-        intent.putExtra("region", user.getRegion());
-        intent.putExtra("ciudad", user.getCiudad());
-        intent.putExtra("comuna", user.getComuna());
-        intent.putExtra("direccion", user.getDireccion());*/
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         cerrarProgressDialog();
         startActivity(intent);
@@ -156,6 +152,11 @@ public class LoginActivity extends AppCompatActivity {
     private void cerrarProgressDialog(){
         dialogAutentificando.dismiss();
         _loginButton.setEnabled(true);
+    }
+
+    public void error_internet(){
+        Toast.makeText(LoginActivity.this, getResources().getString(R.string.error_servidor), Toast.LENGTH_SHORT).show();
+        cerrarProgressDialog();
     }
 
     public boolean validarCampos() {

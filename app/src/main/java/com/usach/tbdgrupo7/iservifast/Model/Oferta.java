@@ -1,7 +1,6 @@
 package com.usach.tbdgrupo7.iservifast.Model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by matias on 28-12-15.
@@ -10,54 +9,35 @@ public class Oferta implements Serializable{
 
     private String titulo;
     private String descripcion;
-    private String region;
-    private String usuario;
-    private String categoria;
-    private String comunidad;
+    private String fecha;
+    private String precio;
+    private String imagen;
     private int idServicio;
     private int categoria_idCategoria;
     private int comunidad_idComunidad;
     private int duracion;
-    private int precio;
     private int promedio;
     private int usuario_idUsuario;
-    private Date fecha;
 
     public Oferta(){
         this.duracion = 10;
         this.promedio = 0;
     }
 
-    public String getComunidad() {
-        return comunidad;
+    public String getImagen() {
+        return imagen;
     }
 
-    public void setComunidad(String comunidad) {
-        this.comunidad = comunidad;
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public String getFecha() {
+        return fecha;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
     public int getIdServicio() {
@@ -66,14 +46,6 @@ public class Oferta implements Serializable{
 
     public void setIdServicio(int idServicio) {
         this.idServicio = idServicio;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
     }
 
     public String getTitulo() {
@@ -116,11 +88,11 @@ public class Oferta implements Serializable{
         this.duracion = duracion;
     }
 
-    public int getPrecio() {
+    public String getPrecio() {
         return precio;
     }
 
-    public void setPrecio(int precio) {
+    public void setPrecio(String precio) {
         this.precio = precio;
     }
 

@@ -72,7 +72,6 @@ public class RegistrarGet extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-
         if(result!=null) {
             getUsuariosMails(result, usuarioIngresado, mailIngresado);
             boolean usuarioDisponible = usuarioDisponible(usuarios,usuarioIngresado);
@@ -139,32 +138,8 @@ public class RegistrarGet extends AsyncTask<String, Void, String> {
         return true;//True: mail disponible
     }
 
-    public boolean isUsuarioDisponible() {
-        return usuarioDisponible;
-    }
-
     public void setUsuarioDisponible(boolean usuarioDisponible) {
         this.usuarioDisponible = usuarioDisponible;
-    }
-
-    public String[] getUsuarios() {
-        return usuarios;
-    }
-
-    public void setUsuarios(String[] usuarios) {
-        this.usuarios = usuarios;
-    }
-
-    public String[] getMails() {
-        return mails;
-    }
-
-    public void setMails(String[] mails) {
-        this.mails = mails;
-    }
-
-    public boolean isMailDisponible() {
-        return mailDisponible;
     }
 
     public void setMailDisponible(boolean mailDisponible) {

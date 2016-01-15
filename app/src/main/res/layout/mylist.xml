@@ -23,12 +23,14 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:padding="2dp"
-            android:textColor="#33CC33" />
+            android:textColor="@color/black" />
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:layout_marginLeft="10dp"/>
+            android:textColor="#7c6c6c"
+        android:layout_marginLeft="10dp"
+            android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

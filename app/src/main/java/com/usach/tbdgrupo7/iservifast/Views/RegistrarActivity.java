@@ -23,24 +23,24 @@ import org.json.JSONObject;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class RegistrarActivity extends AppCompatActivity {
     private static final String TAG = "RegistrarActivity";
 
-    @InjectView(R.id.input_usuario)EditText _usuarioText;
-    @InjectView(R.id.input_nombre)EditText _nombreText;
-    @InjectView(R.id.input_apellido)EditText _apellidoText;
-    @InjectView(R.id.input_password)EditText _passwordText;
-    @InjectView(R.id.input_password2)TextView _password2Text;
-    @InjectView(R.id.input_email)TextView _mailText;
-    @InjectView(R.id.input_region)TextView _regionText;
-    @InjectView(R.id.input_ciudad)TextView _ciudadText;
-    @InjectView(R.id.input_comuna)TextView _comunaText;
-    @InjectView(R.id.btn_signup)Button _signupButton;
-    @InjectView(R.id.input_direccion)TextView _direccionText;
-    @InjectView(R.id.link_login)TextView _loginLink;
+    @Bind(R.id.input_usuario)EditText _usuarioText;
+    @Bind(R.id.input_nombre)EditText _nombreText;
+    @Bind(R.id.input_apellido)EditText _apellidoText;
+    @Bind(R.id.input_password)EditText _passwordText;
+    @Bind(R.id.input_password2)TextView _password2Text;
+    @Bind(R.id.input_email)TextView _mailText;
+    @Bind(R.id.input_region)TextView _regionText;
+    @Bind(R.id.input_ciudad)TextView _ciudadText;
+    @Bind(R.id.input_comuna)TextView _comunaText;
+    @Bind(R.id.btn_signup)Button _signupButton;
+    @Bind(R.id.input_direccion)TextView _direccionText;
+    @Bind(R.id.link_login)TextView _loginLink;
 
     private String usuario;
     private String nombre;
@@ -69,7 +69,7 @@ public class RegistrarActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         progressDialog = new ProgressDialog(RegistrarActivity.this,R.style.AppTheme_Dark_Dialog);
 
@@ -164,7 +164,7 @@ public class RegistrarActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         cerrarProgressDialog();
         startActivity(intent);
-        finish();
+        //finish();
     }
 
     public void enviarJsonYLoguear(Usuario usuario){

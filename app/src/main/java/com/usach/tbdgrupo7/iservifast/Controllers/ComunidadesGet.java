@@ -3,8 +3,8 @@ package com.usach.tbdgrupo7.iservifast.Controllers;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.usach.tbdgrupo7.iservifast.Model.Favorito;
-import com.usach.tbdgrupo7.iservifast.Views.FavoritosActivity;
+import com.usach.tbdgrupo7.iservifast.Model.Comunidad;
+import com.usach.tbdgrupo7.iservifast.Views.MainActivity;
 import com.usach.tbdgrupo7.iservifast.utilities.SSLTrust;
 
 import org.json.JSONArray;
@@ -21,18 +21,17 @@ import java.util.Scanner;
 /**
  * Created by matias on 11-01-16.
  */
-public class FavoritosGet extends AsyncTask<String, Void, String>{
+public class ComunidadesGet extends AsyncTask<String, Void, String>{
 
-    private FavoritosActivity favoritosActivity;
+    private MainActivity mainActivity;
     private SSLTrust sT;
-    private Favorito favoritos[];
+    private Comunidad comunidades[];
 
 
-    public FavoritosGet(FavoritosActivity favoritosActivity){
-        this.favoritosActivity = favoritosActivity;
+    public ComunidadesGet(MainActivity mainActivity){
+        this.mainActivity = mainActivity;
         this.sT = new SSLTrust();
     }
-
 
     @Override
     protected void onPreExecute() {
@@ -61,29 +60,32 @@ public class FavoritosGet extends AsyncTask<String, Void, String>{
     }// doInBackground(String... urls)
 
     @Override
-    protected void onPostExecute(String result) {
-        getServiciosOfrecidos(result);
-        favoritosActivity.getServicios(favoritos);
+    protected void onPostExecute(String result){
+        if(result!=null) {
+            getServiciosOfrecidos(result);
+            mainActivity.getComunidades(comunidades);
+        }
+        else{
+            mainActivity.error_internet();
+        }
     }
 
     public void getServiciosOfrecidos(String json) {
         try {
             JSONArray ja = new JSONArray(json);;
-            favoritos = new Favorito[ja.length()];
+            comunidades = new Comunidad[ja.length()];
             String precio;
             for (int i = 0; i < ja.length(); i++) {
                 JSONObject row = ja.getJSONObject(i);
-                Favorito fav = new Favorito();
-                fav.setIdFavorito(row.getInt("idFavorito"));
-                fav.setServicio_idServicio(row.getInt("servicio_idServicio"));
-                fav.setUsuario_idUsuario(row.getInt("usuario_idUsuario"));
-                favoritos[i]=fav;
+                Comunidad com = new Comunidad();
+                com.setIdComunidad(row.getInt("idComunidad"));
+                com.setNombre(row.getString("nombre"));
+                com.setComuna(row.getString("comuna"));
+                com.setCiudad(row.getString("ciudad"));
+                comunidades[i]=com;
             }
         } catch (JSONException e) {
             Log.e("ERROR", this.getClass().toString() + " " + e.toString());
         }
     }
-
-
-
 }

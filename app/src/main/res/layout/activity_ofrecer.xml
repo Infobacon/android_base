@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollView1"
+    android:id="@+id/rootview"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <LinearLayout
@@ -44,22 +43,8 @@
 
 
             <!-- Categoria -->
-
-<!--            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
-
-                <EditText android:id="@+id/input_categoria"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:hint="Categoria"/>
-            </android.support.design.widget.TextInputLayout> -->
-
             <TextView
-                android:id="@+id/txt"
+                android:id="@+id/label_categoria"
                 android:text="Categoria"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,6 +58,40 @@
                     android:entries="@array/spinner_regiones"
                     android:background="@color/primary_darker"
                     android:textColor="@color/white"/>
+
+            <!-- Region -->
+            <!--
+            <TextView
+                android:id="@+id/label_region"
+                android:text="Región"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                />
+
+            <Spinner
+                android:id="@+id/spinner_regiones"
+                android:layout_height="40dp"
+                android:layout_width="fill_parent"
+                android:entries="@array/spinner_regiones"
+                android:background="@color/primary_darker"
+                android:textColor="@color/white"/>
+-->
+            <!-- Comunidad -->
+            <TextView
+                android:id="@+id/label_comunidad"
+                android:text="Comunidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                />
+
+            <Spinner
+                android:id="@+id/spinner_comunidades"
+                android:layout_height="40dp"
+                android:layout_width="fill_parent"
+                android:background="@color/primary_darker"
+                android:textColor="@color/white"/>
 
 
             <!-- Precio -->
