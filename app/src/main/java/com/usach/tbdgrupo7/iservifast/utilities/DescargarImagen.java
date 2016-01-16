@@ -34,8 +34,8 @@ public class DescargarImagen extends AsyncTask<String, Void, String> {
     private static final int MIS_SERVICIOS_OFRECIDOS = 3;
     private static final int MIS_SERVICIOS_SOLICITADOS = 4;
     private static final int FAVORITOS = 5;
-    private static final short SERVICIO_OFRECIDO = 6;
-    private static final short SERVICIO_SOLICITADO = 7;
+    private static final int SERVICIO_OFRECIDO = 6;
+    private static final int SERVICIO_SOLICITADO = 7;
 
     public DescargarImagen(MainActivity mainActivity, int position, short flag) {
         this.mainActivity=mainActivity;

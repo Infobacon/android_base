@@ -170,7 +170,13 @@ public class RegistrarActivity extends AppCompatActivity {
     public void enviarJsonYLoguear(Usuario usuario){
         JsonHandler jh = new JsonHandler();
         JSONObject json = jh.setUsuario(usuario);
-        new RegistrarPost(this, usuario).execute(getResources().getString(R.string.servidor) + "Usuario/crear", json.toString());
+        SystemUtilities su = new SystemUtilities(getApplicationContext());
+        if (su.isNetworkAvailable()) {
+            new RegistrarPost(this, usuario).execute(getResources().getString(R.string.servidor) + "Usuario/crear", json.toString());
+        }
+        else{
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void abrirProgressDialog(){

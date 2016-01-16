@@ -71,9 +71,15 @@ public class MainActivity extends AppCompatActivity
 
         user = (Usuario) (getIntent().getSerializableExtra("usuario"));
 
-        new OfrecerGet(this, MAIN_ACTIVITY).execute(getResources().getString(R.string.servidor) + "Oferta");
-        new CategoriasGet(this).execute(getResources().getString(R.string.servidor) + "Categoria");
-        new ComunidadesGet(this).execute(getResources().getString(R.string.servidor) + "Comunidad");
+        SystemUtilities su = new SystemUtilities(getApplicationContext());
+        if (su.isNetworkAvailable()) {
+            new OfrecerGet(this, MAIN_ACTIVITY).execute(getResources().getString(R.string.servidor) + "Oferta");
+            new CategoriasGet(this).execute(getResources().getString(R.string.servidor) + "Categoria");
+            new ComunidadesGet(this).execute(getResources().getString(R.string.servidor) + "Comunidad");
+        }
+        else{
+            Toast.makeText(this, getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -91,7 +97,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (imagenes[position] != imagen_blanco) {
-                    System.out.println("pasando imagen");
                     Bitmap b = imagenes[position];
                     ByteArrayOutputStream bs = new ByteArrayOutputStream();
                     b.compress(Bitmap.CompressFormat.PNG, 50, bs);
@@ -143,8 +148,14 @@ public class MainActivity extends AppCompatActivity
         imagenes = new Bitmap[serviciosOfrecidos.length];
         for(i=0;i<serviciosOfrecidos.length;i++){
             imagenes[i]=imagen_blanco;
-            if(serviciosOfrecidos[i].getUrl().equals("no_image")==false){
-                new DescargarImagen(this,i,MAIN_ACTIVITY).execute(serviciosOfrecidos[i].getUrl());
+            if(serviciosOfrecidos[i].getUrl().equals("no_image")==false) {
+                SystemUtilities su = new SystemUtilities(getApplicationContext());
+                if (su.isNetworkAvailable()) {
+                    new DescargarImagen(this, i, MAIN_ACTIVITY).execute(serviciosOfrecidos[i].getUrl());
+                }
+                else{
+                    Toast.makeText(this, getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+                }
             }
         }
         adapter = new CustomListAdapter(this, titulos, descripciones, imagenes);

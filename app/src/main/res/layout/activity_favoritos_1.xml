@@ -9,9 +9,21 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+
+
     <include layout="@layout/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:id="@+id/text_sin_favoritos"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical|center_horizontal" />
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
@@ -20,6 +32,10 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer"
+        />
+
+
+
 
 </android.support.v4.widget.DrawerLayout>

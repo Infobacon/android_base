@@ -9,6 +9,16 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:id="@+id/text_sin_mis_servicios_solicitados"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical|center_horizontal" />
+
     <include layout="@layout/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

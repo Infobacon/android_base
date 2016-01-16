@@ -61,6 +61,7 @@ public class FavoritosActivity extends AppCompatActivity implements NavigationVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favoritos_1);
 
+        progressDialogDescargando = new ProgressDialog(this,R.style.AppTheme_Dark_Dialog);
         abrirProgressDialogDescargando();
 
         user = (Usuario) (getIntent().getSerializableExtra("usuario"));
@@ -76,7 +77,6 @@ public class FavoritosActivity extends AppCompatActivity implements NavigationVi
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (imagenes[position] != imagen_blanco) {
-                    System.out.println("pasando imagen");
                     Bitmap b = imagenes[position];
                     ByteArrayOutputStream bs = new ByteArrayOutputStream();
                     b.compress(Bitmap.CompressFormat.PNG, 50, bs);
@@ -130,20 +130,25 @@ public class FavoritosActivity extends AppCompatActivity implements NavigationVi
         }
     }
 
-    public void listarServicios(OfertaGet[] serviciosOfrecidos){
-        this.servicios = serviciosOfrecidos;
-        titulos = crearArrayTitulo(serviciosOfrecidos);
-        descripciones = crearArrayDescripcion(serviciosOfrecidos);
+    public void listarServicios(OfertaGet[] servicios) {
         int i;
-        imagen_blanco = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.no_image);
-        imagenes = new Bitmap[serviciosOfrecidos.length];
-        if(serviciosOfrecidos.length>0){
-            for(i=0;i<serviciosOfrecidos.length;i++){
-                imagenes[i]=imagen_blanco;
-                if(serviciosOfrecidos[i].getUrl().equals("no_image")==false){
-                    new DescargarImagen(this,i,MAIN_ACTIVITY).execute(serviciosOfrecidos[i].getUrl());
+        int j = 0;
+        int largo_favoritos = favoritos.length;
+        if(largo_favoritos>0) {
+            OfertaGet[] servs = new OfertaGet[largo_favoritos];
+            Bitmap imagen_blanco = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.no_image);
+            imagenes = new Bitmap[servicios.length];
+            for (j=0;j<largo_favoritos;j++) {
+                for (i = 0; i < servicios.length; i++) {
+                    if (servicios[i].getIdServicio() == favoritos[j].getServicio_idServicio()) {
+                        servs[j] = servicios[i];
+                        new DescargarImagen(this,i,FAVORITOS);
+                    }
                 }
             }
+            this.servicios = servs;
+            titulos = crearArrayTitulo(servs);
+            descripciones = crearArrayDescripcion(servs);
             adapter = new CustomListAdapter(this, titulos, descripciones, imagenes);
             list.setAdapter(adapter);
         }

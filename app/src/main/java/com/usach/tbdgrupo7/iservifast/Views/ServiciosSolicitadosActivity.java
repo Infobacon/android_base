@@ -65,8 +65,13 @@ public class ServiciosSolicitadosActivity extends AppCompatActivity
         abrirProgressDialogDescargando();
 
         gets = 0;
-
-        new SolicitarGet(this,SERVICIOS_SOLICITADOS).execute(getResources().getString(R.string.servidor) + "Solicitud");
+        SystemUtilities su = new SystemUtilities(this);
+        if (su.isNetworkAvailable()) {
+            new SolicitarGet(this,SERVICIOS_SOLICITADOS).execute(getResources().getString(R.string.servidor) + "Solicitud");
+        }
+        else{
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+        }
 
         user = (Usuario) (getIntent().getSerializableExtra("usuario"));
         comunidades = (Comunidad[]) (getIntent().getSerializableExtra("comunidades"));
@@ -88,7 +93,6 @@ public class ServiciosSolicitadosActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (imagenes[position] != imagen_blanco) {
-                    System.out.println("pasando imagen");
                     Bitmap b = imagenes[position];
                     ByteArrayOutputStream bs = new ByteArrayOutputStream();
                     b.compress(Bitmap.CompressFormat.PNG, 50, bs);
@@ -134,7 +138,13 @@ public class ServiciosSolicitadosActivity extends AppCompatActivity
         for(i=0;i<serviciosOfrecidos.length;i++){
             imagenes[i]=imagen_blanco;
             if(serviciosOfrecidos[i].getUrl().equals("no_image")==false){
-                new DescargarImagen(this,i,MAIN_ACTIVITY).execute(serviciosOfrecidos[i].getUrl());
+                SystemUtilities su = new SystemUtilities(this);
+                if (su.isNetworkAvailable()) {
+                    new DescargarImagen(this,i,SERVICIOS_SOLICITADOS).execute(serviciosOfrecidos[i].getUrl());
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+                }
             }
         }
         adapter = new CustomListAdapter(this, titulos, descripciones, imagenes);

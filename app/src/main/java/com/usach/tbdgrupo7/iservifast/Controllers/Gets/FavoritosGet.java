@@ -71,7 +71,7 @@ public class FavoritosGet extends AsyncTask<String, Void, String>{
         return null;
     }
 
-    public void getServicios(String json) {
+    public void getFavoritos(String json) {
         try {
             JSONArray ja = new JSONArray(json);;
             favoritos = new Favorito[ja.length()];
@@ -93,7 +93,7 @@ public class FavoritosGet extends AsyncTask<String, Void, String>{
     protected void onPostExecute(String result) {
         if(flag==FAVORITOS){
             if(result!=null) {
-                getServicios(result);
+                getFavoritos(result);
                 favoritosActivity.getServicios(favoritos);
             }
             else{
@@ -102,7 +102,7 @@ public class FavoritosGet extends AsyncTask<String, Void, String>{
         }
         else if(flag==SERVICIO_OFRECIDO){
             if(result!=null) {
-                getServicios(result);
+                getFavoritos(result);
                 servicioOfrecidoActivity.setearFavorito(favoritos);
             }
             else{

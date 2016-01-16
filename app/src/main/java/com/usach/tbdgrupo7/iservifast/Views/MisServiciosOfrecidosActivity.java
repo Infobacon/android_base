@@ -64,7 +64,13 @@ public class MisServiciosOfrecidosActivity extends AppCompatActivity implements 
         progressDialogDescargando = new ProgressDialog(MisServiciosOfrecidosActivity.this,R.style.AppTheme_Dark_Dialog);
         abrirProgressDialogDescargando();
 
-        new OfrecerGet(this,MIS_SERVICIOS_OFRECIDOS).execute(getResources().getString(R.string.servidor) + "Oferta/users/"+user.getIdUsuario());
+        SystemUtilities su = new SystemUtilities(getApplicationContext());
+        if (su.isNetworkAvailable()) {
+            new OfrecerGet(this, MIS_SERVICIOS_OFRECIDOS).execute(getResources().getString(R.string.servidor) + "Oferta/users/" + user.getIdUsuario());
+        }
+        else{
+            Toast.makeText(this, getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -128,15 +134,21 @@ public class MisServiciosOfrecidosActivity extends AppCompatActivity implements 
             imagenes = new Bitmap[serviciosOfrecidos.length];
             for(i=0;i<serviciosOfrecidos.length;i++){
                 imagenes[i]=imagen_blanco;
-                if(serviciosOfrecidos[i].getUrl().equals("no_image")==false){
-                    new DescargarImagen(this,i,MAIN_ACTIVITY).execute(serviciosOfrecidos[i].getUrl());
+                if(serviciosOfrecidos[i].getUrl().equals("no_image")==false) {
+                    SystemUtilities su = new SystemUtilities(getApplicationContext());
+                    if (su.isNetworkAvailable()) {
+                        new DescargarImagen(this, i, MIS_SERVICIOS_OFRECIDOS).execute(serviciosOfrecidos[i].getUrl());
+                    }
+                    else{
+                        Toast.makeText(this, getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
             adapter = new CustomListAdapter(this, titulos, descripciones, imagenes);
             list.setAdapter(adapter);
         }
         else{
-            TextView sin_favoritos = (TextView)findViewById(R.id.text_sin_favoritos);
+            TextView sin_favoritos = (TextView)findViewById(R.id.text_sin_mis_servicios_ofrecidos);
             sin_favoritos.setText("No has ofrecido ningún servicio.");
         }
         cerrarProgressDialogDescargando();

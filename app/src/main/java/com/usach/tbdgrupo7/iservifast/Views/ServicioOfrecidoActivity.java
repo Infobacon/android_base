@@ -53,7 +53,13 @@ public class ServicioOfrecidoActivity extends AppCompatActivity {
        img = (ImageView) findViewById(R.id.icono_favorito);
        img.setImageResource(R.drawable.off);
 
-       new FavoritosGet(this,FAVORITOS).execute(getResources().getString(R.string.servidor) + "Favoritos");
+       SystemUtilities su = new SystemUtilities(getApplicationContext());
+       if (su.isNetworkAvailable()) {
+           new FavoritosGet(this,SERVICIO_OFRECIDO).execute(getResources().getString(R.string.servidor) + "Favoritos");
+       }
+       else{
+           Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+       }
 
        servicio = (OfertaGet) (getIntent().getSerializableExtra("oferta"));
        user = (Usuario) (getIntent().getSerializableExtra("usuario"));
@@ -74,7 +80,12 @@ public class ServicioOfrecidoActivity extends AppCompatActivity {
        }
 
        if(imagen_establecida==false&&servicio.getUrl().equals("no_image")==false){
-           new DescargarImagen(this,SERVICIO_OFRECIDO).execute(servicio.getUrl());
+           if (su.isNetworkAvailable()) {
+               new DescargarImagen(this,SERVICIO_OFRECIDO).execute(servicio.getUrl());
+           }
+           else{
+               Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+           }
        }
 
        titulo = (TextView) findViewById(R.id.titulo_servicio);
@@ -130,7 +141,14 @@ public class ServicioOfrecidoActivity extends AppCompatActivity {
 
             JsonHandler jh = new JsonHandler();
             JSONObject jObject = jh.setFavorito(a);
-            new FavoritoPost(ServicioOfrecidoActivity.this).execute(getResources().getString(R.string.servidor) + "Favoritos/crear", jObject.toString());
+
+            SystemUtilities su = new SystemUtilities(getApplicationContext());
+            if (su.isNetworkAvailable()) {
+                new FavoritoPost(ServicioOfrecidoActivity.this).execute(getResources().getString(R.string.servidor) + "Favoritos/crear", jObject.toString());
+            }
+            else{
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

@@ -38,6 +38,7 @@ import com.usach.tbdgrupo7.iservifast.imgurmodel.ImageResponse;
 import com.usach.tbdgrupo7.iservifast.imgurmodel.Upload;
 import com.usach.tbdgrupo7.iservifast.services.UploadService;
 import com.usach.tbdgrupo7.iservifast.utilities.JsonHandler;
+import com.usach.tbdgrupo7.iservifast.utilities.SystemUtilities;
 
 import org.json.JSONObject;
 
@@ -176,7 +177,13 @@ public class SolicitarActivity extends AppCompatActivity {
 
                 abrirProgressDialog();
 
-                new UploadService(getApplicationContext()).Execute(upload, new UiCallback());
+                SystemUtilities su = new SystemUtilities(getApplicationContext());
+                if (su.isNetworkAvailable()) {
+                    new UploadService(getApplicationContext()).Execute(upload, new UiCallback());
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+                }
 
                 IntentFilter intentFilter = new IntentFilter("httpPost");
 
@@ -447,7 +454,14 @@ public class SolicitarActivity extends AppCompatActivity {
             a.setImagen(imageResponse.data.link);
             JsonHandler jh = new JsonHandler();
             JSONObject jObject = jh.setOferta(a);
-            new SolicitarPost(SolicitarActivity.this).execute(getResources().getString(R.string.servidor) + "Solicitud/crear", jObject.toString());
+
+            SystemUtilities su = new SystemUtilities(getApplicationContext());
+            if (su.isNetworkAvailable()) {
+                new SolicitarPost(SolicitarActivity.this).execute(getResources().getString(R.string.servidor) + "Solicitud/crear", jObject.toString());
+            }
+            else{
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+            }
         }
 
         @Override

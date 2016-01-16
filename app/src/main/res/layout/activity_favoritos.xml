@@ -18,13 +18,7 @@
         android:layout_alignParentLeft="true">
     </ListView>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/text_sin_favoritos"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_vertical|center_horizontal" />
+
 
 
 </RelativeLayout>
