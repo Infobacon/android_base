@@ -1,10 +1,10 @@
-package com.usach.tbdgrupo7.iservifast.Controllers.Favoritos;
+package com.usach.tbdgrupo7.iservifast.Controllers.Gets;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.usach.tbdgrupo7.iservifast.Model.Favorito;
-import com.usach.tbdgrupo7.iservifast.Views.FavoritosActivity;
+import com.usach.tbdgrupo7.iservifast.Model.Categoria;
+import com.usach.tbdgrupo7.iservifast.Views.MainActivity;
 import com.usach.tbdgrupo7.iservifast.utilities.SSLTrust;
 
 import org.json.JSONArray;
@@ -21,18 +21,17 @@ import java.util.Scanner;
 /**
  * Created by matias on 11-01-16.
  */
-public class FavoritosGet extends AsyncTask<String, Void, String>{
+public class CategoriasGet extends AsyncTask<String, Void, String>{
 
-    private FavoritosActivity favoritosActivity;
+    private MainActivity mainActivity;
     private SSLTrust sT;
-    private Favorito favoritos[];
+    private Categoria categorias[];
 
 
-    public FavoritosGet(FavoritosActivity favoritosActivity){
-        this.favoritosActivity = favoritosActivity;
+    public CategoriasGet(MainActivity mainActivity){
+        this.mainActivity = mainActivity;
         this.sT = new SSLTrust();
     }
-
 
     @Override
     protected void onPreExecute() {
@@ -63,26 +62,26 @@ public class FavoritosGet extends AsyncTask<String, Void, String>{
     @Override
     protected void onPostExecute(String result) {
         if(result!=null) {
-            getServiciosOfrecidos(result);
-            favoritosActivity.getServicios(favoritos);
+            getCategorias(result);
+            mainActivity.getCategorias(categorias);
         }
         else{
-            favoritosActivity.error_internet();
+            mainActivity.error_internet();
         }
     }
 
-    public void getServiciosOfrecidos(String json) {
+    public void getCategorias(String json) {
         try {
             JSONArray ja = new JSONArray(json);;
-            favoritos = new Favorito[ja.length()];
+            categorias = new Categoria[ja.length()];
             String precio;
             for (int i = 0; i < ja.length(); i++) {
                 JSONObject row = ja.getJSONObject(i);
-                Favorito fav = new Favorito();
-                fav.setIdFavorito(row.getInt("idFavorito"));
-                fav.setServicio_idServicio(row.getInt("servicio_idServicio"));
-                fav.setUsuario_idUsuario(row.getInt("usuario_idUsuario"));
-                favoritos[i]=fav;
+                Categoria cat = new Categoria();
+                cat.setIdCategoria(row.getInt("idCategoria"));
+                cat.setNombre(row.getString("nombre"));
+                cat.setCategorias(row.getString("categorias"));
+                categorias[i]=cat;
             }
         } catch (JSONException e) {
             Log.e("ERROR", this.getClass().toString() + " " + e.toString());

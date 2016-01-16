@@ -1,9 +1,10 @@
-package com.usach.tbdgrupo7.iservifast.Controllers.Favoritos;
+package com.usach.tbdgrupo7.iservifast.Controllers.Gets;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.usach.tbdgrupo7.iservifast.Model.Favorito;
+import com.usach.tbdgrupo7.iservifast.Views.FavoritosActivity;
 import com.usach.tbdgrupo7.iservifast.Views.ServicioOfrecidoActivity;
 import com.usach.tbdgrupo7.iservifast.utilities.SSLTrust;
 
@@ -21,21 +22,31 @@ import java.util.Scanner;
 /**
  * Created by matias on 11-01-16.
  */
-public class FavoritoGetInicio extends AsyncTask<String, Void, String>{
+public class FavoritosGet extends AsyncTask<String, Void, String>{
 
+    private FavoritosActivity favoritosActivity;
     private ServicioOfrecidoActivity servicioOfrecidoActivity;
     private SSLTrust sT;
     private Favorito favoritos[];
+    private int flag;
+    private static final int MAIN_ACTIVITY = 1;
+    private static final int SERVICIOS_SOLICITADOS = 2;
+    private static final int MIS_SERVICIOS_OFRECIDOS = 3;
+    private static final int MIS_SERVICIOS_SOLICITADOS = 4;
+    private static final int FAVORITOS = 5;
+    private static final short SERVICIO_OFRECIDO = 6;
+    private static final short SERVICIO_SOLICITADO = 7;
 
-
-    public FavoritoGetInicio(ServicioOfrecidoActivity servicioOfrecidoActivity){
-        this.servicioOfrecidoActivity = servicioOfrecidoActivity;
+    public FavoritosGet(FavoritosActivity favoritosActivity, int flag){
+        this.favoritosActivity = favoritosActivity;
         this.sT = new SSLTrust();
+        this.flag = flag;
     }
 
-
-    @Override
-    protected void onPreExecute() {
+    public FavoritosGet(ServicioOfrecidoActivity servicioOfrecidoActivity, int flag){
+        this.servicioOfrecidoActivity = servicioOfrecidoActivity;
+        this.sT = new SSLTrust();
+        this.flag = flag;
     }
 
     @Override
@@ -58,23 +69,13 @@ public class FavoritoGetInicio extends AsyncTask<String, Void, String>{
             Log.e("ERROR", this.getClass().toString() + " " + e.toString());
         }
         return null;
-    }// doInBackground(String... urls)
-
-    @Override
-    protected void onPostExecute(String result) {
-        if(result!=null) {
-            getServiciosOfrecidos(result);
-            servicioOfrecidoActivity.setearFavorito(favoritos);
-        }
-        else{
-            servicioOfrecidoActivity.error_internet();
-        }
     }
 
-    public void getServiciosOfrecidos(String json) {
+    public void getServicios(String json) {
         try {
             JSONArray ja = new JSONArray(json);;
             favoritos = new Favorito[ja.length()];
+            String precio;
             for (int i = 0; i < ja.length(); i++) {
                 JSONObject row = ja.getJSONObject(i);
                 Favorito fav = new Favorito();
@@ -85,6 +86,28 @@ public class FavoritoGetInicio extends AsyncTask<String, Void, String>{
             }
         } catch (JSONException e) {
             Log.e("ERROR", this.getClass().toString() + " " + e.toString());
+        }
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        if(flag==FAVORITOS){
+            if(result!=null) {
+                getServicios(result);
+                favoritosActivity.getServicios(favoritos);
+            }
+            else{
+                favoritosActivity.error_internet();
+            }
+        }
+        else if(flag==SERVICIO_OFRECIDO){
+            if(result!=null) {
+                getServicios(result);
+                servicioOfrecidoActivity.setearFavorito(favoritos);
+            }
+            else{
+                servicioOfrecidoActivity.error_internet();
+            }
         }
     }
 }

@@ -1,9 +1,9 @@
-package com.usach.tbdgrupo7.iservifast.Controllers;
+package com.usach.tbdgrupo7.iservifast.Controllers.Posts;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.usach.tbdgrupo7.iservifast.Views.OfrecerActivity;
+import com.usach.tbdgrupo7.iservifast.Views.ServicioOfrecidoActivity;
 import com.usach.tbdgrupo7.iservifast.utilities.SSLTrust;
 
 import java.io.BufferedOutputStream;
@@ -11,17 +11,14 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by matias on 28-12-15.
- */
-public class OfrecerPost extends AsyncTask<String, Void, String>{
+public class FavoritoPost extends AsyncTask<String, Void, String> {
 
     private SSLTrust sT;
-    private OfrecerActivity ofrecerActivity;
+    private ServicioOfrecidoActivity servicioOfrecidoActivity;
 
-    public OfrecerPost(OfrecerActivity ofrecerActivity) {
+    public FavoritoPost(ServicioOfrecidoActivity servicioOfrecidoActivity) {
         this.sT = new SSLTrust();
-        this.ofrecerActivity = ofrecerActivity;
+        this.servicioOfrecidoActivity = servicioOfrecidoActivity;
     }
 
     /***
@@ -60,11 +57,10 @@ public class OfrecerPost extends AsyncTask<String, Void, String>{
     @Override
     protected void onPostExecute(String result) {
         if(result.equals("OK")) {
-            ofrecerActivity.iniciarMain();
+            servicioOfrecidoActivity.favoritoCambiado(result);
         }
         else{
-            ofrecerActivity.error_internet();
-            ofrecerActivity.cerrarProgressDialog();
+            servicioOfrecidoActivity.error_internet();
         }
     }
 

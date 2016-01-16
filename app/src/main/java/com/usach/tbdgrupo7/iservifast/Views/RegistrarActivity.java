@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.usach.tbdgrupo7.iservifast.Controllers.RegistrarGet;
-import com.usach.tbdgrupo7.iservifast.Controllers.RegistrarPost;
+import com.usach.tbdgrupo7.iservifast.Controllers.Gets.RegistrarGet;
+import com.usach.tbdgrupo7.iservifast.Controllers.Posts.RegistrarPost;
 import com.usach.tbdgrupo7.iservifast.Model.Usuario;
 import com.usach.tbdgrupo7.iservifast.R;
 import com.usach.tbdgrupo7.iservifast.utilities.JsonHandler;

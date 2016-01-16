@@ -26,7 +26,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.usach.tbdgrupo7.iservifast.Controllers.OfrecerPost;
+import com.usach.tbdgrupo7.iservifast.Controllers.Posts.OfrecerPost;
 import com.usach.tbdgrupo7.iservifast.Model.Categoria;
 import com.usach.tbdgrupo7.iservifast.Model.Comunidad;
 import com.usach.tbdgrupo7.iservifast.Model.Oferta;

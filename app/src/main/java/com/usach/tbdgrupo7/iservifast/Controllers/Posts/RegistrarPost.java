@@ -1,4 +1,4 @@
-package com.usach.tbdgrupo7.iservifast.Controllers;
+package com.usach.tbdgrupo7.iservifast.Controllers.Posts;
 
 import android.os.AsyncTask;
 import android.util.Log;

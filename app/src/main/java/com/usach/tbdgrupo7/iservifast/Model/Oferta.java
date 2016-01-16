@@ -12,6 +12,7 @@ public class Oferta implements Serializable{
     private String fecha;
     private String precio;
     private String imagen;
+    private String url;
     private int idServicio;
     private int categoria_idCategoria;
     private int comunidad_idComunidad;
@@ -22,6 +23,14 @@ public class Oferta implements Serializable{
     public Oferta(){
         this.duracion = 10;
         this.promedio = 0;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getImagen() {

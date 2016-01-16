@@ -20,9 +20,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.usach.tbdgrupo7.iservifast.Controllers.CategoriasGet;
-import com.usach.tbdgrupo7.iservifast.Controllers.ComunidadesGet;
-import com.usach.tbdgrupo7.iservifast.Controllers.OfrecerGet;
+import com.usach.tbdgrupo7.iservifast.Controllers.Gets.CategoriasGet;
+import com.usach.tbdgrupo7.iservifast.Controllers.Gets.ComunidadesGet;
+import com.usach.tbdgrupo7.iservifast.Controllers.Gets.OfrecerGet;
 import com.usach.tbdgrupo7.iservifast.Model.Categoria;
 import com.usach.tbdgrupo7.iservifast.Model.Comunidad;
 import com.usach.tbdgrupo7.iservifast.Model.Favorito;
@@ -32,43 +32,33 @@ import com.usach.tbdgrupo7.iservifast.R;
 import com.usach.tbdgrupo7.iservifast.utilities.DescargarImagen;
 import com.usach.tbdgrupo7.iservifast.utilities.SystemUtilities;
 
+import java.io.ByteArrayOutputStream;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private CustomListAdapter adapter;
     private ListView list;
-    private ProgressDialog progressDialogDescargando;
-    private ProgressDialog progressDialog;
     private String[] titulos;
     private String[] descripciones;
     private OfertaGet[] servicios;
-    private OfertaGet[] serviciosSolicitados;
     private Usuario user;
     private Categoria categorias[];
     private Comunidad comunidades[];
     private Favorito favoritos[];
     private Bitmap imagenes[];
     private int gets;
+    private ProgressDialog progressDialogDescargando;
+    private Bitmap imagen_blanco;
 
-    Integer[] imgid={
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-    };
+    private static final short MAIN_ACTIVITY = 1;
+    private static final short SERVICIOS_SOLICITADOS = 2;
+    private static final short MIS_SERVICIOS_OFRECIDOS = 3;
+    private static final short MIS_SERVICIOS_SOLICITADOS = 4;
+    private static final short FAVORITOS = 5;
+    private static final short SERVICIO_OFRECIDO = 6;
+    private static final short SERVICIO_SOLICITADO = 7;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +71,7 @@ public class MainActivity extends AppCompatActivity
 
         user = (Usuario) (getIntent().getSerializableExtra("usuario"));
 
-        new OfrecerGet(this).execute(getResources().getString(R.string.servidor) + "Oferta");
+        new OfrecerGet(this, MAIN_ACTIVITY).execute(getResources().getString(R.string.servidor) + "Oferta");
         new CategoriasGet(this).execute(getResources().getString(R.string.servidor) + "Categoria");
         new ComunidadesGet(this).execute(getResources().getString(R.string.servidor) + "Comunidad");
 
@@ -100,43 +90,74 @@ public class MainActivity extends AppCompatActivity
         list.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(MainActivity.this,ServicioOfrecidoActivity.class);
-                myIntent.putExtra("oferta",servicios[position]);
-                myIntent.putExtra("usuario",user);
-                startActivity(myIntent);
+                if (imagenes[position] != imagen_blanco) {
+                    System.out.println("pasando imagen");
+                    Bitmap b = imagenes[position];
+                    ByteArrayOutputStream bs = new ByteArrayOutputStream();
+                    b.compress(Bitmap.CompressFormat.PNG, 50, bs);
+                    servicios[position].setImagen_comprimida(bs.toByteArray());
+                    servicios[position].setImagen(null);
+                } else {
+                    servicios[position].setImagen_comprimida(null);
+                }
+                Intent i = new Intent(MainActivity.this, ServicioOfrecidoActivity.class);
+                i.putExtra("oferta", servicios[position]);
+                i.putExtra("usuario", user);
+                startActivity(i);
+                overridePendingTransition(R.transition.slide_right_in, R.transition.slide_left_out);
             }
         });
 
         //colocar nombre y email al usuario
+
+        setNombreEmail();
+
+    }
+
+    private void setNombreEmail(){
         TextView tv_nombre = (TextView) findViewById(R.id.nav_nombre_usuario);
         tv_nombre.setText(user.getNombre() + " " + user.getApellido());
         TextView tv_email = (TextView) findViewById(R.id.nav_email_usuario);
         tv_email.setText(user.getEmail());
-
     }
 
     private void updateImagen(int index){
 
     }
 
-    public void llegoImagen(int position,Bitmap bitmap){
-        imagenes[position] = bitmap;
-        adapter.notifyDataSetChanged();
-   }
+    public void llegoImagen(int position,Bitmap bitmap, String result){
+        if(result.equals("OK")){
+            imagenes[position] = bitmap;
+            servicios[position].setImagen(bitmap);
+            adapter.notifyDataSetChanged();
+        }
+    }
 
-    public void listarServiciosOfrecidos(OfertaGet[] serviciosOfrecidos){
+    public void listarServicios(OfertaGet[] serviciosOfrecidos){
+        gets++;
         this.servicios = serviciosOfrecidos;
         titulos = crearArrayTitulo(serviciosOfrecidos);
         descripciones = crearArrayDescripcion(serviciosOfrecidos);
         int i;
-        Bitmap imagen_blanco = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.no_image);
+        imagen_blanco = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.no_image);
         imagenes = new Bitmap[serviciosOfrecidos.length];
         for(i=0;i<serviciosOfrecidos.length;i++){
             imagenes[i]=imagen_blanco;
-            new DescargarImagen(this,i);
+            if(serviciosOfrecidos[i].getUrl().equals("no_image")==false){
+                new DescargarImagen(this,i,MAIN_ACTIVITY).execute(serviciosOfrecidos[i].getUrl());
+            }
         }
         adapter = new CustomListAdapter(this, titulos, descripciones, imagenes);
         list.setAdapter(adapter);
+        cerrarProgressDialogDescargando();
+    }
+
+    public void cerrarProgressDialogDescargando(){
+        progressDialogDescargando.dismiss();
+    }
+
+    public void error_internet(){
+        Toast.makeText(this, getResources().getString(R.string.error_servidor), Toast.LENGTH_SHORT).show();
         cerrarProgressDialogDescargando();
     }
 
@@ -174,11 +195,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void getCategorias(Categoria cats[]){
+        gets++;
         this.categorias = new Categoria[cats.length];
         this.categorias = cats;
     }
 
     public void getComunidades(Comunidad coms[]){
+        gets++;
         comunidades = new Comunidad[coms.length];
         comunidades = coms;
     }
@@ -187,15 +210,6 @@ public class MainActivity extends AppCompatActivity
         progressDialogDescargando.setIndeterminate(true);
         progressDialogDescargando.setMessage("Descargando datos, espere por favor...");
         progressDialogDescargando.show();
-    }
-
-    public void cerrarProgressDialogDescargando(){
-        progressDialogDescargando.dismiss();
-    }
-
-    public void error_internet(){
-        Toast.makeText(MainActivity.this, getResources().getString(R.string.error_servidor), Toast.LENGTH_SHORT).show();
-        cerrarProgressDialogDescargando();
     }
 
     @Override
@@ -288,7 +302,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
             else{
-                Toast.makeText(MainActivity.this, "COMUNIDAD O CAT NULL", Toast.LENGTH_SHORT).show();
+
             }
 
         }else{

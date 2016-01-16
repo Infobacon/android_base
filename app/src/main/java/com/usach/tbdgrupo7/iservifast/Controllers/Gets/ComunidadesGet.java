@@ -1,4 +1,4 @@
-package com.usach.tbdgrupo7.iservifast.Controllers;
+package com.usach.tbdgrupo7.iservifast.Controllers.Gets;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -62,7 +62,7 @@ public class ComunidadesGet extends AsyncTask<String, Void, String>{
     @Override
     protected void onPostExecute(String result){
         if(result!=null) {
-            getServiciosOfrecidos(result);
+            getComunidades(result);
             mainActivity.getComunidades(comunidades);
         }
         else{
@@ -70,7 +70,7 @@ public class ComunidadesGet extends AsyncTask<String, Void, String>{
         }
     }
 
-    public void getServiciosOfrecidos(String json) {
+    public void getComunidades(String json) {
         try {
             JSONArray ja = new JSONArray(json);;
             comunidades = new Comunidad[ja.length()];

@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.usach.tbdgrupo7.iservifast.Controllers.Login;
+import com.usach.tbdgrupo7.iservifast.Controllers.Posts.Login;
 import com.usach.tbdgrupo7.iservifast.Model.Usuario;
 import com.usach.tbdgrupo7.iservifast.R;
 import com.usach.tbdgrupo7.iservifast.utilities.SystemUtilities;

@@ -16,22 +16,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.usach.tbdgrupo7.iservifast.Controllers.MisServiciosOfrecidosGet;
+import com.usach.tbdgrupo7.iservifast.Controllers.Gets.OfrecerGet;
 import com.usach.tbdgrupo7.iservifast.Model.Categoria;
 import com.usach.tbdgrupo7.iservifast.Model.Comunidad;
 import com.usach.tbdgrupo7.iservifast.Model.OfertaGet;
 import com.usach.tbdgrupo7.iservifast.Model.Usuario;
 import com.usach.tbdgrupo7.iservifast.R;
-import com.usach.tbdgrupo7.iservifast.utilities.DescargarImagen4;
+import com.usach.tbdgrupo7.iservifast.utilities.DescargarImagen;
 import com.usach.tbdgrupo7.iservifast.utilities.SystemUtilities;
+
+import java.io.ByteArrayOutputStream;
 
 public class MisServiciosOfrecidosActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private CustomListAdapter adapter;
     private ListView list;
-    private ProgressDialog progressDialog;
     private String[] titulos;
     private String[] descripciones;
     private OfertaGet[] servicios;
@@ -39,26 +41,16 @@ public class MisServiciosOfrecidosActivity extends AppCompatActivity implements 
     private Categoria categorias[];
     private Comunidad comunidades[];
     private Bitmap imagenes[];
+    private ProgressDialog progressDialogDescargando;
+    private Bitmap imagen_blanco;
 
-    Integer[] imgid={
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-            R.drawable.bmw_logo,
-    };
+    private static final short MAIN_ACTIVITY = 1;
+    private static final short SERVICIOS_SOLICITADOS = 2;
+    private static final short MIS_SERVICIOS_OFRECIDOS = 3;
+    private static final short MIS_SERVICIOS_SOLICITADOS = 4;
+    private static final short FAVORITOS = 5;
+    private static final short SERVICIO_OFRECIDO = 6;
+    private static final short SERVICIO_SOLICITADO = 7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +61,10 @@ public class MisServiciosOfrecidosActivity extends AppCompatActivity implements 
         comunidades = (Comunidad[]) (getIntent().getSerializableExtra("comunidades"));
         categorias = (Categoria[]) (getIntent().getSerializableExtra("categorias"));
 
-        progressDialog = new ProgressDialog(MisServiciosOfrecidosActivity.this,R.style.AppTheme_Dark_Dialog);
+        progressDialogDescargando = new ProgressDialog(MisServiciosOfrecidosActivity.this,R.style.AppTheme_Dark_Dialog);
+        abrirProgressDialogDescargando();
 
-        new MisServiciosOfrecidosGet(this).execute(getResources().getString(R.string.servidor) + "Oferta/users/"+user.getIdUsuario());
+        new OfrecerGet(this,MIS_SERVICIOS_OFRECIDOS).execute(getResources().getString(R.string.servidor) + "Oferta/users/"+user.getIdUsuario());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -87,36 +80,81 @@ public class MisServiciosOfrecidosActivity extends AppCompatActivity implements 
 
 
         list=(ListView)findViewById(R.id.list);
-
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(MisServiciosOfrecidosActivity.this, ServicioOfrecidoActivity.class);
-                myIntent.putExtra("oferta", servicios[position]);
-                startActivity(myIntent);
+                if (imagenes[position] != imagen_blanco) {
+                    Bitmap b = imagenes[position];
+                    ByteArrayOutputStream bs = new ByteArrayOutputStream();
+                    b.compress(Bitmap.CompressFormat.PNG, 50, bs);
+                    servicios[position].setImagen_comprimida(bs.toByteArray());
+                    servicios[position].setImagen(null);
+                } else {
+                    servicios[position].setImagen_comprimida(null);
+                }
+                Intent i = new Intent(getApplicationContext(), ServicioOfrecidoActivity.class);
+                i.putExtra("oferta", servicios[position]);
+                i.putExtra("usuario", user);
+                startActivity(i);
+                overridePendingTransition(R.transition.slide_right_in, R.transition.slide_left_out);
             }
         });
+        setNombreEmail();
+
     }
 
-    public void listarServicios(OfertaGet[] servicios) {
-        this.servicios = servicios;
-        titulos = crearArrayTitulo(servicios);
-        descripciones = crearArrayDescripcion(servicios);
-        int i,largo;
-        largo=servicios.length;
-        Bitmap imagen_blanco = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.no_image);
-        imagenes = new Bitmap[largo];
-        for(i=0;i<largo;i++){
-            imagenes[i]=imagen_blanco;
-            new DescargarImagen4(this,i);
+    private void setNombreEmail(){
+        TextView tv_nombre = (TextView) findViewById(R.id.nav_nombre_usuario);
+        tv_nombre.setText(user.getNombre() + " " + user.getApellido());
+        TextView tv_email = (TextView) findViewById(R.id.nav_email_usuario);
+        tv_email.setText(user.getEmail());
+    }
+
+    public void llegoImagen(int position,Bitmap bitmap, String result){
+        if(result.equals("OK")){
+            imagenes[position] = bitmap;
+            servicios[position].setImagen(bitmap);
+            adapter.notifyDataSetChanged();
         }
-        adapter = new CustomListAdapter(this, titulos, descripciones, imagenes);
-        list.setAdapter(adapter);
     }
 
-    public void llegoImagen(int position,Bitmap bitmap){
-        imagenes[position] = bitmap;
-        adapter.notifyDataSetChanged();
+    public void listarServicios(OfertaGet[] serviciosOfrecidos){
+        if(serviciosOfrecidos.length>0){
+            this.servicios = serviciosOfrecidos;
+            titulos = crearArrayTitulo(serviciosOfrecidos);
+            descripciones = crearArrayDescripcion(serviciosOfrecidos);
+            int i;
+            imagen_blanco = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.no_image);
+            imagenes = new Bitmap[serviciosOfrecidos.length];
+            for(i=0;i<serviciosOfrecidos.length;i++){
+                imagenes[i]=imagen_blanco;
+                if(serviciosOfrecidos[i].getUrl().equals("no_image")==false){
+                    new DescargarImagen(this,i,MAIN_ACTIVITY).execute(serviciosOfrecidos[i].getUrl());
+                }
+            }
+            adapter = new CustomListAdapter(this, titulos, descripciones, imagenes);
+            list.setAdapter(adapter);
+        }
+        else{
+            TextView sin_favoritos = (TextView)findViewById(R.id.text_sin_favoritos);
+            sin_favoritos.setText("No has ofrecido ningún servicio.");
+        }
+        cerrarProgressDialogDescargando();
+    }
+
+    public void cerrarProgressDialogDescargando(){
+        progressDialogDescargando.dismiss();
+    }
+
+    public void abrirProgressDialogDescargando(){
+        progressDialogDescargando.setIndeterminate(true);
+        progressDialogDescargando.setMessage("Descargando datos, espere por favor...");
+        progressDialogDescargando.show();
+    }
+
+    public void error_internet(){
+        Toast.makeText(this, getResources().getString(R.string.error_servidor), Toast.LENGTH_SHORT).show();
+        cerrarProgressDialogDescargando();
     }
 
     private String[] crearArrayTitulo(OfertaGet[] servicios){
@@ -229,10 +267,6 @@ public class MisServiciosOfrecidosActivity extends AppCompatActivity implements 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void error_internet(){
-        Toast.makeText(MisServiciosOfrecidosActivity.this, getResources().getString(R.string.error_servidor), Toast.LENGTH_SHORT).show();
     }
 
     @Override

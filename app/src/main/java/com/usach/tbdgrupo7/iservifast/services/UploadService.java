@@ -12,6 +12,9 @@ import java.lang.ref.WeakReference;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 
 /**
  * Created by AKiniyalocts on 1/12/15.
@@ -36,8 +39,8 @@ public class UploadService {
             return;
         }
 
-        /*final NotificationHelper notificationHelper = new NotificationHelper(mContext.get());
-        notificationHelper.createUploadingNotification();
+        //final NotificationHelper notificationHelper = new NotificationHelper(mContext.get());
+        //notificationHelper.createUploadingNotification();
 
         RestAdapter restAdapter = buildRestAdapter();
 
@@ -55,21 +58,21 @@ public class UploadService {
                         if (response == null) {
 
                             //notifica que no fue subida correctamente
-                            notificationHelper.createFailedUploadNotification();
+                            //notificationHelper.createFailedUploadNotification();
                             return;
                         }
                         //notifica que fue subida correctamente
                         if (imageResponse.success) {
-                            notificationHelper.createUploadedNotification(imageResponse);
+                            //notificationHelper.createUploadedNotification(imageResponse);
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         if (cb != null) cb.failure(error);
-                        notificationHelper.createFailedUploadNotification();
+                        //notificationHelper.createFailedUploadNotification();
                     }
-                });*/
+                });
     }
 
     private RestAdapter buildRestAdapter() {

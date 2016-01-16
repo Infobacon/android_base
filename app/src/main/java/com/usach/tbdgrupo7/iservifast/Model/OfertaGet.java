@@ -1,5 +1,7 @@
 package com.usach.tbdgrupo7.iservifast.Model;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 /**
@@ -15,6 +17,9 @@ public class OfertaGet implements Serializable{
     private String categoria;
     private String comunidad;
     private String precio;
+    private Bitmap imagen;
+    private String url;
+    private byte[] imagen_comprimida;
     private int idServicio;
     private int categoria_idCategoria;
     private int comunidad_idComunidad;
@@ -25,6 +30,30 @@ public class OfertaGet implements Serializable{
     public OfertaGet(){
         this.duracion = 10;
         this.promedio = 0;
+    }
+
+    public byte[] getImagen_comprimida() {
+        return imagen_comprimida;
+    }
+
+    public void setImagen_comprimida(byte[] imagen_comprimida) {
+        this.imagen_comprimida = imagen_comprimida;
+    }
+
+    public Bitmap getImagen() {
+        return imagen;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setImagen(Bitmap imagen) {
+        this.imagen = imagen;
     }
 
     public String getUsuario() {

@@ -18,9 +18,9 @@
 
         <ImageView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:src="@drawable/no_image"
             android:id="@+id/imagen_servicio"
             android:layout_alignParentTop="true"
@@ -84,6 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/precio_servicio"
+                    android:textColor="@color/black"
                     android:textSize="25dp"
                     android:layout_above="@+id/label_categoria"
                     android:layout_toRightOf="@+id/label_precio"
@@ -107,6 +108,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/categoria_servicio"
                     android:textSize="18sp"
+                    android:textColor="@color/black"
                     android:layout_below="@+id/label_categoria"
                     android:paddingLeft="10dp"
                     />
@@ -156,6 +158,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/usuario_vendedor"
                     android:textSize="13dp"
+                    android:textColor="@color/black"
                     android:layout_below="@+id/label_nombreVendedor"
                     android:layout_toRightOf="@+id/avatar_usuario"
                     android:paddingBottom="15dp"
@@ -192,6 +195,7 @@
                     android:id="@+id/region_vendedor"
                     android:textSize="13dp"
                     android:paddingTop="5dp"
+                    android:textColor="@color/black"
                     android:layout_below="@+id/label_region"
                     android:layout_toRightOf="@+id/icono_ubicacion" />
 
@@ -207,8 +211,8 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/descripcion"
                 android:layout_below="@+id/espacio2"
                 >
@@ -233,6 +237,7 @@
                     android:paddingLeft="20dp"
                     android:visibility="visible"
                     android:layout_marginTop="25dp"
+                    android:textColor="@color/black"
                     android:layout_below="@+id/label_descripcion"
                     android:paddingBottom="30dp"
                     />

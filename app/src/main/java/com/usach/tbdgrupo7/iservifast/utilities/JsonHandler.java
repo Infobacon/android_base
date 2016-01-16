@@ -69,7 +69,7 @@ public class JsonHandler {
             jsonObject.accumulate("duracion", oferta.getDuracion());
             jsonObject.accumulate("precio", oferta.getPrecio());
             jsonObject.accumulate("fecha", oferta.getFecha());
-            jsonObject.accumulate("imagen", oferta.getImagen());
+            jsonObject.accumulate("imagen", oferta.getUrl());
             return jsonObject;
 
         }catch(JSONException je){

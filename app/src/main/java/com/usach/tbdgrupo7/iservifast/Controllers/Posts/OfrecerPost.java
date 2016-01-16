@@ -1,9 +1,9 @@
-package com.usach.tbdgrupo7.iservifast.Controllers;
+package com.usach.tbdgrupo7.iservifast.Controllers.Posts;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.usach.tbdgrupo7.iservifast.Views.SolicitarActivity;
+import com.usach.tbdgrupo7.iservifast.Views.OfrecerActivity;
 import com.usach.tbdgrupo7.iservifast.utilities.SSLTrust;
 
 import java.io.BufferedOutputStream;
@@ -14,14 +14,14 @@ import java.net.URL;
 /**
  * Created by matias on 28-12-15.
  */
-public class SolicitarPost extends AsyncTask<String, Void, String>{
+public class OfrecerPost extends AsyncTask<String, Void, String>{
 
     private SSLTrust sT;
-    private SolicitarActivity solicitarActivity;
+    private OfrecerActivity ofrecerActivity;
 
-    public SolicitarPost(SolicitarActivity solicitarActivity) {
+    public OfrecerPost(OfrecerActivity ofrecerActivity) {
         this.sT = new SSLTrust();
-        this.solicitarActivity = solicitarActivity;
+        this.ofrecerActivity = ofrecerActivity;
     }
 
     /***
@@ -60,10 +60,13 @@ public class SolicitarPost extends AsyncTask<String, Void, String>{
     @Override
     protected void onPostExecute(String result) {
         if(result.equals("OK")) {
-            solicitarActivity.iniciarMain();
+            ofrecerActivity.iniciarMain();
         }
         else{
-            solicitarActivity.error_internet();
+            ofrecerActivity.error_internet();
+            ofrecerActivity.cerrarProgressDialog();
         }
     }
+
+
 }

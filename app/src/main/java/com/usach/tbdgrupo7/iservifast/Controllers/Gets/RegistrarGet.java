@@ -1,4 +1,4 @@
-package com.usach.tbdgrupo7.iservifast.Controllers;
+package com.usach.tbdgrupo7.iservifast.Controllers.Gets;
 
 import android.content.Context;
 import android.os.AsyncTask;

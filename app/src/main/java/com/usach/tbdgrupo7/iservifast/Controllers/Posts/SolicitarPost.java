@@ -1,9 +1,9 @@
-package com.usach.tbdgrupo7.iservifast.Controllers.Favoritos;
+package com.usach.tbdgrupo7.iservifast.Controllers.Posts;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.usach.tbdgrupo7.iservifast.Views.ServicioOfrecidoActivity;
+import com.usach.tbdgrupo7.iservifast.Views.SolicitarActivity;
 import com.usach.tbdgrupo7.iservifast.utilities.SSLTrust;
 
 import java.io.BufferedOutputStream;
@@ -11,14 +11,17 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class FavoritoPost extends AsyncTask<String, Void, String> {
+/**
+ * Created by matias on 28-12-15.
+ */
+public class SolicitarPost extends AsyncTask<String, Void, String>{
 
     private SSLTrust sT;
-    private ServicioOfrecidoActivity servicioOfrecidoActivity;
+    private SolicitarActivity solicitarActivity;
 
-    public FavoritoPost(ServicioOfrecidoActivity servicioOfrecidoActivity) {
+    public SolicitarPost(SolicitarActivity solicitarActivity) {
         this.sT = new SSLTrust();
-        this.servicioOfrecidoActivity = servicioOfrecidoActivity;
+        this.solicitarActivity = solicitarActivity;
     }
 
     /***
@@ -57,12 +60,10 @@ public class FavoritoPost extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         if(result.equals("OK")) {
-            servicioOfrecidoActivity.favoritoCambiado(result);
+            solicitarActivity.iniciarMain();
         }
         else{
-            servicioOfrecidoActivity.error_internet();
+            solicitarActivity.error_internet();
         }
     }
-
-
 }
