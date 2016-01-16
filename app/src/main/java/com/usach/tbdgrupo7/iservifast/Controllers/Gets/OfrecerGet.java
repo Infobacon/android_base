@@ -96,9 +96,9 @@ public class OfrecerGet extends AsyncTask<String, Void, String> {
         try {
             JSONArray ja = new JSONArray(json);;
             servicios = new OfertaGet[ja.length()];
-            String precio;
+            int largo = ja.length()-1;
             for (int i = 0; i < ja.length(); i++) {
-                JSONObject row = ja.getJSONObject(i);
+                JSONObject row = ja.getJSONObject(largo);
                 OfertaGet servicio = new OfertaGet();
                 servicio.setCategoria_idCategoria(row.getInt("categoria_idCategoria"));
                 servicio.setCategoria(row.getString("catnombre"));
@@ -112,6 +112,7 @@ public class OfrecerGet extends AsyncTask<String, Void, String> {
                 servicio.setUrl(row.getString("imagen"));
                 servicio.setUsuario_idUsuario(row.getInt("usuario_idUsuario"));
                 servicios[i]=servicio;
+                largo--;
             }
         } catch (JSONException e) {
             Log.e("ERROR", this.getClass().toString() + " " + e.toString());

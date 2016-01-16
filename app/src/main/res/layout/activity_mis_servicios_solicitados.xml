@@ -9,6 +9,12 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+
+
+    <include layout="@layout/app_bar_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -18,10 +24,6 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:gravity="center_vertical|center_horizontal" />
-
-    <include layout="@layout/app_bar_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

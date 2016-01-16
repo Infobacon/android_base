@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -42,7 +41,10 @@ import com.usach.tbdgrupo7.iservifast.utilities.SystemUtilities;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -79,11 +81,14 @@ public class OfrecerActivity extends AppCompatActivity {
     private Categoria[] categorias;
     private Comunidad[] comunidades;
     private ProgressDialog progressDialog;
+    private String categoria;
+    private String comunidad;
 
     private String titulo;
     private String descripcion;
     private String precio;
     private int idCat;
+    private int idCom;
 
     public final static String TAG = OfrecerActivity.class.getSimpleName();
 
@@ -155,7 +160,7 @@ public class OfrecerActivity extends AppCompatActivity {
             public void onClick(View arg0) {
 
                 if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-                    Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
                     startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
@@ -182,8 +187,6 @@ public class OfrecerActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
                 }
 
-
-
                 IntentFilter intentFilter = new IntentFilter("httpPost");
 
                 Spinner spinner_categorias = (Spinner) findViewById(R.id.spinner_categorias);
@@ -198,7 +201,6 @@ public class OfrecerActivity extends AppCompatActivity {
                 descripcion = ((EditText) findViewById(R.id.input_descripcion)).getText().toString();
                 idCat = (categoriaItems.indexOf(categoria));
                 precio = ((EditText) findViewById(R.id.input_precio)).getText().toString();
-
             }
         });
     }
@@ -366,11 +368,28 @@ public class OfrecerActivity extends AppCompatActivity {
             }
         }
         else if (requestCode == 100 && resultCode == RESULT_OK) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
+            /*BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             Bitmap bitmap = BitmapFactory.decodeFile(mPath, options);
             ImageView imageView = (ImageView) findViewById(R.id.output_photo);
-            imageView.setImageBitmap(bitmap);
+            imageView.setImageBitmap(bitmap);*/
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+            File destination = new File(Environment.getExternalStorageDirectory(),
+                    System.currentTimeMillis() + ".jpg");
+            FileOutputStream fo;
+            try {
+                destination.createNewFile();
+                fo = new FileOutputStream(destination);
+                fo.write(bytes.toByteArray());
+                fo.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            uploadImage.setImageBitmap(thumbnail);
         }
     }
 
@@ -451,14 +470,31 @@ public class OfrecerActivity extends AppCompatActivity {
         public void success(ImageResponse imageResponse, Response response) {
             //onsuccess image upload
 
+            categoria = sp.getSelectedItem().toString();
+            comunidad = sp1.getSelectedItem().toString();
+
+            int i;
+            for(i=0;i<categorias.length;i++){
+                if(categorias[i].getNombre().equals(categoria)==true){
+                    idCat = categorias[i].getIdCategoria();
+                }
+            }
+
+            for(i=0;i<comunidades.length;i++){
+                if(comunidades[i].getNombre().equals(comunidad)==true){
+                    idCom = comunidades[i].getIdComunidad();
+                }
+            }
+
             Oferta a = new Oferta();//duracion y promedio por defecto en constructor
             a.setTitulo(titulo);
             a.setDescripcion(descripcion);
-            a.setCategoria_idCategoria(1);
-            a.setComunidad_idComunidad(2);
+            a.setCategoria_idCategoria(idCat);
+            a.setComunidad_idComunidad(idCom);
             a.setPrecio(precio);
             a.setUsuario_idUsuario(user.getIdUsuario());
-            a.setImagen(imageResponse.data.link);
+            a.setUrl(imageResponse.data.link);
+            System.out.println(imageResponse.data.link);
             JsonHandler jh = new JsonHandler();
             JSONObject jObject = jh.setOferta(a);
 

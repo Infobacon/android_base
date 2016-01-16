@@ -1,19 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:fillViewport="false">
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:paddingTop="10dp"
+        android:id="@+id/layout_total"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gris_fondo"
-
         tools:context="com.usach.tbdgrupo7.iservifast.Views.ServicioActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_servicio"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_below="@+id/toolbar_servicio"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gris_fondo"
+        tools:context="com.usach.tbdgrupo7.iservifast.Views.ServicioActivity">
+
+
+
 
 
         <ImageView
@@ -251,4 +273,5 @@
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
-</ScrollView>
+    </RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

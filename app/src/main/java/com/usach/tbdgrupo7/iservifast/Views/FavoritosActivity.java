@@ -70,7 +70,13 @@ public class FavoritosActivity extends AppCompatActivity implements NavigationVi
 
         progressDialog = new ProgressDialog(FavoritosActivity.this,R.style.AppTheme_Dark_Dialog);
 
-        new FavoritosGet(this , FAVORITOS).execute(getResources().getString(R.string.servidor) + "Favoritos/users/" + user.getIdUsuario());
+        SystemUtilities su = new SystemUtilities(getApplicationContext());
+        if (su.isNetworkAvailable()) {
+            new FavoritosGet(this , FAVORITOS).execute(getResources().getString(R.string.servidor) + "Favoritos/users/" + user.getIdUsuario());
+        }
+        else{
+            Toast.makeText(this, getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+        }
 
         list=(ListView)findViewById(R.id.list);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -134,15 +140,21 @@ public class FavoritosActivity extends AppCompatActivity implements NavigationVi
         int i;
         int j = 0;
         int largo_favoritos = favoritos.length;
+        SystemUtilities su = new SystemUtilities(getApplicationContext());
         if(largo_favoritos>0) {
             OfertaGet[] servs = new OfertaGet[largo_favoritos];
-            Bitmap imagen_blanco = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.no_image);
+            imagen_blanco = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.no_image);
             imagenes = new Bitmap[servicios.length];
             for (j=0;j<largo_favoritos;j++) {
                 for (i = 0; i < servicios.length; i++) {
                     if (servicios[i].getIdServicio() == favoritos[j].getServicio_idServicio()) {
                         servs[j] = servicios[i];
-                        new DescargarImagen(this,i,FAVORITOS);
+                        if (su.isNetworkAvailable()) {
+                            new DescargarImagen(this, j, FAVORITOS).execute(servs[j].getUrl());
+                        }
+                        else{
+                            Toast.makeText(this, getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }

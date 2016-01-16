@@ -2,6 +2,7 @@ package com.usach.tbdgrupo7.iservifast.services;
 
 import android.content.Context;
 
+import com.usach.tbdgrupo7.iservifast.helpers.NotificationHelper;
 import com.usach.tbdgrupo7.iservifast.imgurmodel.ImageResponse;
 import com.usach.tbdgrupo7.iservifast.imgurmodel.ImgurAPI;
 import com.usach.tbdgrupo7.iservifast.imgurmodel.Upload;
@@ -39,8 +40,8 @@ public class UploadService {
             return;
         }
 
-        //final NotificationHelper notificationHelper = new NotificationHelper(mContext.get());
-        //notificationHelper.createUploadingNotification();
+        final NotificationHelper notificationHelper = new NotificationHelper(mContext.get());
+        notificationHelper.createUploadingNotification();
 
         RestAdapter restAdapter = buildRestAdapter();
 
@@ -58,19 +59,19 @@ public class UploadService {
                         if (response == null) {
 
                             //notifica que no fue subida correctamente
-                            //notificationHelper.createFailedUploadNotification();
+                            notificationHelper.createFailedUploadNotification();
                             return;
                         }
                         //notifica que fue subida correctamente
                         if (imageResponse.success) {
-                            //notificationHelper.createUploadedNotification(imageResponse);
+                            notificationHelper.createUploadedNotification(imageResponse);
                         }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         if (cb != null) cb.failure(error);
-                        //notificationHelper.createFailedUploadNotification();
+                        notificationHelper.createFailedUploadNotification();
                     }
                 });
     }

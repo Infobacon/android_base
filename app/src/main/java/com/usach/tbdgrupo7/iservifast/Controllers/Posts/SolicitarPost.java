@@ -64,6 +64,7 @@ public class SolicitarPost extends AsyncTask<String, Void, String>{
         }
         else{
             solicitarActivity.error_internet();
+            solicitarActivity.cerrarProgressDialog();
         }
     }
 }

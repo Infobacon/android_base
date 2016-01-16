@@ -67,6 +67,4 @@ public class OfrecerPost extends AsyncTask<String, Void, String>{
             ofrecerActivity.cerrarProgressDialog();
         }
     }
-
-
 }

@@ -29,6 +29,7 @@
         </activity>
         <activity
             android:name=".Views.SolicitarActivity"
+            android:label="Yo solicito..."
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
@@ -39,6 +40,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity
             android:name=".Views.OfrecerActivity"
+            android:label="Yo ofrezco..."
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark" />
@@ -50,7 +52,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity
             android:name=".Views.ServicioOfrecidoActivity"
-            android:label="@string/title_activity_main"
+            android:label="Alguien ofrece..."
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
@@ -78,7 +80,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity android:name=".Views.ServicioSolicitadoActivity"
             android:screenOrientation="portrait"
-            android:label="Servicio Solicitado"
+            android:label="Alguien solicita..."
             android:theme="@style/AppTheme.Dark"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
     </application>

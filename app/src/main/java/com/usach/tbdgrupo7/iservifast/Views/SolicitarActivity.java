@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -42,7 +41,10 @@ import com.usach.tbdgrupo7.iservifast.utilities.SystemUtilities;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -63,6 +65,7 @@ public class SolicitarActivity extends AppCompatActivity {
     private Button btn_tomar_foto;
     private Button btn_seleccionar_foto;
     private Button btn_enviar;
+    private static final int FILE_PICK = 1001;
     private int PICK_IMAGE_REQUEST = 1;
     private static final int MEDIA_TYPE_IMAGE = 1;
     private static final int MEDIA_TYPE_VIDEO = 2;
@@ -78,11 +81,14 @@ public class SolicitarActivity extends AppCompatActivity {
     private Categoria[] categorias;
     private Comunidad[] comunidades;
     private ProgressDialog progressDialog;
+    private String categoria;
+    private String comunidad;
 
     private String titulo;
     private String descripcion;
     private String precio;
     private int idCat;
+    private int idCom;
 
     public final static String TAG = OfrecerActivity.class.getSimpleName();
 
@@ -115,7 +121,7 @@ public class SolicitarActivity extends AppCompatActivity {
         String[] cats = new String[categorias.length];
         String[] coms = new String[comunidades.length];
 
-        progressDialog = new ProgressDialog(SolicitarActivity.this,R.style.AppTheme_Dark_Dialog);
+        progressDialog = new ProgressDialog(this,R.style.AppTheme_Dark_Dialog);
 
 
         int i;
@@ -144,13 +150,9 @@ public class SolicitarActivity extends AppCompatActivity {
 
         btn_seleccionar_foto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-
-                Intent intent = new Intent();
-                // Show only images, no videos or anything else
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                // Always show the chooser (if there are multiple options available)
-                startActivityForResult(Intent.createChooser(intent, "Seleccionar imagen"), PICK_IMAGE_REQUEST);
+                SolicitarActivity.this.startActivityForResult(intent, FILE_PICK);
             }
         });
 
@@ -158,7 +160,7 @@ public class SolicitarActivity extends AppCompatActivity {
             public void onClick(View arg0) {
 
                 if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-                    Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
                     startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
@@ -339,7 +341,7 @@ public class SolicitarActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if (requestCode == FILE_PICK && resultCode == RESULT_OK && data != null && data.getData() != null) {
             try {
 
                 Uri uri = data.getData();
@@ -367,11 +369,28 @@ public class SolicitarActivity extends AppCompatActivity {
             }
         }
         else if (requestCode == 100 && resultCode == RESULT_OK) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
+            /*BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             Bitmap bitmap = BitmapFactory.decodeFile(mPath, options);
             ImageView imageView = (ImageView) findViewById(R.id.output_photo);
-            imageView.setImageBitmap(bitmap);
+            imageView.setImageBitmap(bitmap);*/
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+            File destination = new File(Environment.getExternalStorageDirectory(),
+                    System.currentTimeMillis() + ".jpg");
+            FileOutputStream fo;
+            try {
+                destination.createNewFile();
+                fo = new FileOutputStream(destination);
+                fo.write(bytes.toByteArray());
+                fo.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            uploadImage.setImageBitmap(thumbnail);
         }
     }
 
@@ -420,8 +439,16 @@ public class SolicitarActivity extends AppCompatActivity {
     }
 
     public void error_internet(){
-        Toast.makeText(SolicitarActivity.this, getResources().getString(R.string.error_servidor), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.error_servidor), Toast.LENGTH_SHORT).show();
     }
+
+    public void onBackPressed() {
+
+        this.finish();
+        overridePendingTransition(R.transition.slide_left_in, R.transition.slide_right_out);
+
+    }
+
 
     @OnClick(R.id.output_photo)
     public void onChooseImage() {
@@ -444,14 +471,31 @@ public class SolicitarActivity extends AppCompatActivity {
         public void success(ImageResponse imageResponse, Response response) {
             //onsuccess image upload
 
+            categoria = sp.getSelectedItem().toString();
+            comunidad = sp1.getSelectedItem().toString();
+
+            int i;
+            for(i=0;i<categorias.length;i++){
+                if(categorias[i].getNombre().equals(categoria)==true){
+                    idCat = categorias[i].getIdCategoria();
+                }
+            }
+
+            for(i=0;i<comunidades.length;i++){
+                if(comunidades[i].getNombre().equals(comunidad)==true){
+                    idCom = comunidades[i].getIdComunidad();
+                }
+            }
+
             Oferta a = new Oferta();//duracion y promedio por defecto en constructor
             a.setTitulo(titulo);
             a.setDescripcion(descripcion);
-            a.setCategoria_idCategoria(1);
-            a.setComunidad_idComunidad(2);
+            a.setCategoria_idCategoria(idCat);
+            a.setComunidad_idComunidad(idCom);
             a.setPrecio(precio);
             a.setUsuario_idUsuario(user.getIdUsuario());
-            a.setImagen(imageResponse.data.link);
+            a.setUrl(imageResponse.data.link);
+            System.out.println(imageResponse.data.link);
             JsonHandler jh = new JsonHandler();
             JSONObject jObject = jh.setOferta(a);
 
@@ -462,6 +506,7 @@ public class SolicitarActivity extends AppCompatActivity {
             else{
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
             }
+
         }
 
         @Override
@@ -472,10 +517,4 @@ public class SolicitarActivity extends AppCompatActivity {
             }
         }
     }
-
-    public void onBackPressed() {
-        this.finish();
-        overridePendingTransition(R.transition.slide_left_in, R.transition.slide_right_out);
-    }
-
 }

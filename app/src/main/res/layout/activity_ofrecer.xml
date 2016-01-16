@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootview"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -103,8 +104,9 @@
                 <EditText android:id="@+id/input_precio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:hint="Precio"/>
+                    android:hint="Precio"
+                    android:inputType="number"
+                    android:numeric="integer" />
             </android.support.design.widget.TextInputLayout>
 
             <TextView

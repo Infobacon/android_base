@@ -18,6 +18,8 @@ import com.usach.tbdgrupo7.iservifast.utilities.SystemUtilities;
 
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+
 public class ServicioSolicitadoActivity extends AppCompatActivity {
 
     private OfertaGet servicio;
@@ -111,6 +113,30 @@ public class ServicioSolicitadoActivity extends AppCompatActivity {
         });
     }
 
+    public String transformarPrecio(String precio) {
+        int i;
+        int largo = precio.length();
+        String aux = "";
+        if(largo>3){
+            DecimalFormat formatter = new DecimalFormat("#,###,###,###,###");
+            precio = formatter.format(Integer.parseInt(precio));
+            largo = precio.length();
+            for(i=0;i<largo;i++){
+                if(precio.charAt(i)==','){
+                    aux = aux + '.';
+                }
+                else{
+                    aux = aux + precio.charAt(i);
+                }
+            }
+            return aux;
+
+        }
+        else{
+            return precio;
+        }
+    }
+
     public void llegoImagen(Bitmap bitmap, String result){
         if(result.equals("OK")){
             imagen_servicio.setImageBitmap(bitmap);
@@ -119,7 +145,7 @@ public class ServicioSolicitadoActivity extends AppCompatActivity {
 
     private void llenarServicio() {
         titulo.setText(servicio.getTitulo());
-        precio.setText(servicio.getPrecio());
+        precio.setText(transformarPrecio(servicio.getPrecio()));
         categoria.setText(servicio.getCategoria());
         usuario_vendedor.setText(servicio.getUsuario());
         region_vendedor.setText(servicio.getComunidad());

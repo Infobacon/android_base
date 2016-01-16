@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +22,8 @@ import com.usach.tbdgrupo7.iservifast.utilities.JsonHandler;
 import com.usach.tbdgrupo7.iservifast.utilities.SystemUtilities;
 
 import org.json.JSONObject;
+
+import java.text.DecimalFormat;
 
 public class ServicioOfrecidoActivity extends AppCompatActivity {
 
@@ -60,6 +64,16 @@ public class ServicioOfrecidoActivity extends AppCompatActivity {
        else{
            Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
        }
+
+       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_servicio);
+       setSupportActionBar(toolbar);
+
+       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+       //Para fragments
+       //((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       //((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
 
        servicio = (OfertaGet) (getIntent().getSerializableExtra("oferta"));
        user = (Usuario) (getIntent().getSerializableExtra("usuario"));
@@ -111,6 +125,17 @@ public class ServicioOfrecidoActivity extends AppCompatActivity {
        });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     public void llegoImagen(Bitmap bitmap, String result){
        if(result.equals("OK")){
             imagen_servicio.setImageBitmap(bitmap);
@@ -119,11 +144,35 @@ public class ServicioOfrecidoActivity extends AppCompatActivity {
 
     private void llenarServicio() {
         titulo.setText(servicio.getTitulo());
-        precio.setText(servicio.getPrecio());
+        precio.setText(transformarPrecio(servicio.getPrecio()));
         categoria.setText(servicio.getCategoria());
         usuario_vendedor.setText(servicio.getUsuario());
         region_vendedor.setText(servicio.getComunidad());
         descripcion.setText(servicio.getDescripcion());
+    }
+
+    public String transformarPrecio(String precio) {
+        int i;
+        int largo = precio.length();
+        String aux = "";
+        if(largo>3){
+            DecimalFormat formatter = new DecimalFormat("#,###,###,###,###");
+            precio = formatter.format(Integer.parseInt(precio));
+            largo = precio.length();
+            for(i=0;i<largo;i++){
+                if(precio.charAt(i)==','){
+                    aux = aux + '.';
+                }
+                else{
+                    aux = aux + precio.charAt(i);
+                }
+            }
+            return aux;
+
+        }
+        else{
+            return precio;
+        }
     }
 
     public void error_internet(){

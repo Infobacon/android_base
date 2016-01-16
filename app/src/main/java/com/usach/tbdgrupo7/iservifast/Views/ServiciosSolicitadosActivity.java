@@ -133,22 +133,28 @@ public class ServiciosSolicitadosActivity extends AppCompatActivity
         titulos = crearArrayTitulo(serviciosOfrecidos);
         descripciones = crearArrayDescripcion(serviciosOfrecidos);
         int i;
+        int largo_servicios = serviciosOfrecidos.length;
         imagen_blanco = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.no_image);
         imagenes = new Bitmap[serviciosOfrecidos.length];
-        for(i=0;i<serviciosOfrecidos.length;i++){
-            imagenes[i]=imagen_blanco;
-            if(serviciosOfrecidos[i].getUrl().equals("no_image")==false){
-                SystemUtilities su = new SystemUtilities(this);
-                if (su.isNetworkAvailable()) {
-                    new DescargarImagen(this,i,SERVICIOS_SOLICITADOS).execute(serviciosOfrecidos[i].getUrl());
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+        if(largo_servicios>0) {
+            for(i=0;i<largo_servicios;i++) {
+                imagenes[i] = imagen_blanco;
+                if (serviciosOfrecidos[i].getUrl().equals("no_image") == false) {
+                    SystemUtilities su = new SystemUtilities(this);
+                    if (su.isNetworkAvailable()) {
+                        new DescargarImagen(this, i, SERVICIOS_SOLICITADOS).execute(serviciosOfrecidos[i].getUrl());
+                    } else {
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_internet), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
+            adapter = new CustomListAdapter(this, titulos, descripciones, imagenes);
+            list.setAdapter(adapter);
         }
-        adapter = new CustomListAdapter(this, titulos, descripciones, imagenes);
-        list.setAdapter(adapter);
+        else{
+            TextView sin_favoritos = (TextView)findViewById(R.id.text_sin_servicios_solicitados);
+            sin_favoritos.setText("Aún no has agregado servicios a tus favoritos.");
+        }
         cerrarProgressDialogDescargando();
     }
 
@@ -159,13 +165,6 @@ public class ServiciosSolicitadosActivity extends AppCompatActivity
     public void error_internet(){
         Toast.makeText(this, getResources().getString(R.string.error_servidor), Toast.LENGTH_SHORT).show();
         cerrarProgressDialogDescargando();
-    }
-
-    private void cerrarDialogo(){
-        gets++;
-        if(gets==3){
-            cerrarProgressDialogDescargando();
-        }
     }
 
     private String[] crearArrayTitulo(OfertaGet[] servicios){
